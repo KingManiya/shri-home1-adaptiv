@@ -1,0 +1,24 @@
+{
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-sass-guidelines"
+  ],
+  "rules": {
+    "order/properties-alphabetical-order": null,
+    "scss/at-extend-no-missing-placeholder": null,
+    "selector-no-qualifying-type": null,
+    "selector-class-pattern": null,
+    "string-quotes": "double",
+    "no-descending-specificity": null,
+    "declaration-empty-line-before": null,
+    "no-eol-whitespace": [
+      true,
+      {
+        "ignore": [
+          "empty-lines"
+        ]
+      }
+    ],
+    "no-missing-end-of-source-newline": null
+  }
+}

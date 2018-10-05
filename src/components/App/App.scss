@@ -1,0 +1,13 @@
+.normal {
+  height: 100%;
+  font-family: ArialMT, Arial, serif;
+}
+
+html, body, :global(#root) {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+}
+

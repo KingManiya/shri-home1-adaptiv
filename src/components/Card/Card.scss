@@ -1,0 +1,275 @@
+@import "../../css/constants.scss";
+
+.small {
+  grid-column: span 2;
+}
+
+.medium {
+  grid-column: span 3;
+}
+
+.large {
+  grid-column: span 4;
+  grid-row: span 3;
+}
+
+.normal {
+  background-color: #FAFAFA;
+  border-radius: $border-radius;
+  padding: $desktop-margin;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: background-color .3s, box-shadow .3s;
+}
+
+.normal:hover {
+  background-color: #F3F3F3;
+  box-shadow: 0 2px 6px 0 rgba(197, 186, 186, 0.50);
+}
+
+.normal:hover .action {
+  opacity: 1;
+}
+
+.action {
+  position: absolute;
+  opacity: 0;
+  transition: opacity .3s;
+  right: 15px;
+  cursor: pointer;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: inherit;
+}
+
+.critical .cross {
+  background-image: url('../Card/img/cross-white.svg');
+  background-color: #d44c3a;
+}
+
+.cross {
+  composes: action;
+  background-image: url('../Card/img/cross.svg');
+  top: 15px;
+}
+
+.next {
+  composes: action;
+  background-image: url('../Card/img/next.svg');
+  bottom: 15px;
+  /*box-shadow: #d8d8d8 -2px -2px 20px;*/
+}
+
+.critical .header {
+  background-color: #DB5341;
+  margin: (-$desktop-margin) (-$desktop-margin) 0 (-$desktop-margin);
+  padding: $desktop-margin $desktop-margin $desktop-margin * 2 $desktop-margin;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  transition: background-color .3s;
+}
+
+.critical:hover .header {
+  background-color: #d44c3a;
+}
+
+.critical .header div {
+  color: white;
+}
+
+.header {
+}
+
+.header_line {
+  height: 58px;
+  display: flex;
+  align-items: center;
+
+}
+
+.header_icon {
+  width: 48px;
+  height: 48px;
+  margin-right: $desktop-margin;
+}
+
+.header_title {
+  font-size: 24px;
+  color: #333333;
+  font-weight: bold;
+}
+
+.header_info {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.header_info2 {
+  composes: header_info;
+}
+
+/*Добавляем перенос на вторую строку для времени в больших разрешениях*/
+@media ($media-desktop2-at) {
+  .header_info2 {
+    flex-direction: column;
+    height: 60px;
+  }
+}
+
+.header_info_text {
+  font-size: 18px;
+  color: #333333;
+}
+
+.content {
+  margin-top: 25px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.critical .content {
+  background: inherit;
+  margin: -$desktop-margin;
+  padding: $desktop-margin;
+  border-radius: $border-radius;
+}
+
+.description_normal {
+  font-size: 20px;
+}
+
+.description_big {
+  font-size: 24px;
+  color: #333333;
+}
+
+.data {
+  margin-top: auto;
+  padding-top: 25px;
+}
+
+/*Данные кнопок*/
+.buttons {
+  margin-top: auto;
+  display: flex;
+}
+
+/*Данные камеры*/
+.cam {
+  border-radius: $border-radius;
+  width: 100%;
+}
+
+/*Данные температуры*/
+.thermal {
+  margin-top: auto;
+  display: flex;
+}
+
+.temp_line {
+  display: flex;
+  margin-right: 52px;
+}
+
+.temp_text {
+  font-size: 18px;
+}
+
+.temp_value {
+  composes: temp_text;
+  font-weight: bold;
+  margin-left: 2px;
+}
+
+@media ($media-mobile-to) {
+  /*Действия прибиываем к краю*/
+  .action {
+    right: 10px;
+  }
+
+  .cross {
+    top: 10px;
+  }
+
+  .next {
+    bottom: 10px;
+  }
+
+  /*Уменьшаем отступы у карточки*/
+  .normal {
+    padding: $mobile-margin;
+  }
+
+  .critical .header {
+    margin: (-$mobile-margin) (-$mobile-margin) 0 (-$mobile-margin);
+    padding: $mobile-margin $mobile-margin $mobile-margin * 2 $mobile-margin;
+  }
+
+  .critical .content {
+    margin: -$mobile-margin;
+    padding: $mobile-margin;
+  }
+
+  .header_line {
+    height: initial;
+  }
+
+  .header_icon {
+    width: 35px;
+    height: 35px;
+    margin-right: $mobile-margin;
+  }
+
+  .header_title {
+    font-size: 14px;
+  }
+
+  .header_info_text {
+    font-size: 12px;
+  }
+
+  .description_normal,
+  .description_big {
+    font-size: 18px;
+    color: #333333;
+  }
+
+  /*Данные кнопок: кнопки по краям карточки*/
+  .buttons {
+    justify-content: space-between;
+  }
+
+  /*Данные температуры: по краям карточки*/
+  .thermal {
+    justify-content: space-between;
+  }
+
+  .temp_line {
+    margin-right: initial;
+  }
+
+  .temp_text {
+    font-size: 14px;
+  }
+}
+
+/*4 один столбик узкие отступы, динамическая ширина*/
+@media ($media-desktop1-to) {
+  .small,
+  .medium {
+    grid-column: span 4;
+  }
+}
+
+/*8 широкоформатный режим*/
+@media ($media-desktop3-at) {
+  .medium {
+    grid-column: span 4;
+  }
+}

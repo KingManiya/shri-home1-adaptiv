@@ -1,0 +1,119 @@
+@import "../../css/constants.scss";
+
+.normal {
+}
+
+.image {
+  width: 52px;
+  height: 52px;
+}
+
+.line {
+  display: flex;
+  align-items: center;
+}
+
+.line_top {
+  composes: line;
+  flex-grow: 1;
+  height: 52px;
+}
+
+.line_bottom {
+  composes: line;
+  margin-top: $desktop-margin;
+  flex-grow: 1;
+}
+
+.title {
+  font-size: 20px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.top {
+  margin-left: 15px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  width: 0; /*Для троеточия на title*/
+}
+
+.song_player_line {
+  composes: line;
+  height: 20px;
+}
+
+.song_player {
+  line-height: 20px;
+  height: 1px;
+  background-color: #979797;
+  flex-grow: 1;
+  position: relative;
+}
+
+.song_player_value {
+  position: absolute;
+  top: -10px;
+  left: 10%;
+  width: 9px;
+  height: 20px;
+  background: #D8D8D8;
+  border-radius: 4.5px;
+  cursor: pointer;
+}
+
+.back {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.forward {
+  composes: back;
+  transform: rotate(180deg);
+  margin-left: 27px;
+}
+
+.info {
+  font-size: 14px;
+  margin-left: 15px;
+  color: rgba(161, 161, 161, 0.84);
+}
+
+.volume {
+  flex-grow: 1;
+  height: 4px;
+  background-color: rgba(216, 216, 216, 0.30);
+  margin: 0 0 0 15px;
+  position: relative;
+}
+
+.volume_value {
+  position: absolute;
+  top: -6px;
+  left: calc(80% - 8px);
+  width: 17px;
+  height: 17px;
+  background-color: #605757;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+@media ($media-mobile-to) {
+  .line_bottom {
+    margin-top: $mobile-margin;
+  }
+
+  .title {
+    font-size: 18px;
+  }
+
+  .forward {
+    margin-left: 20px;
+  }
+}
