@@ -8,6 +8,14 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import Player from "../Player/Player";
 import Button from "../Button/Button";
+import {
+    changePoint,
+    deletePoint,
+    registerMove,
+    registerPoint,
+    registerRotate,
+    registerScale
+} from "../../helpers/gestures";
 
 export default class Card extends React.Component {
     static propTypes = {
@@ -15,6 +23,66 @@ export default class Card extends React.Component {
         // medium: PropTypes.bool,
         // large: PropTypes.bool,
     };
+
+    componentDidMount() {
+        if (this.bitmap) {
+            this.bitmap.addEventListener('pointermove', changePoint);
+            this.bitmap.addEventListener('pointerdown', registerPoint);
+            this.bitmap.addEventListener('pointerup', deletePoint);
+            this.bitmap.addEventListener('pointercancel', deletePoint);
+
+            let contrast = 100;
+            let imageX = 0;
+            let imageY = 0;
+            let tempZoom = 2;
+            let zoom = 2;
+
+            registerRotate(speed => {
+                contrast += speed;
+                if (contrast < 0) contrast = 0;
+                if (contrast > 300) contrast = 300;
+                this.bitmap.style.filter = `brightness(${contrast}%)`;
+            });
+
+
+            registerMove((speedX, speedY) => {
+                imageX += speedX / zoom;
+                imageY += speedY / zoom;
+
+                /*
+                * zoom - отступ. 320 - половина от ширины в 640
+                * 1-0   (320*0/1)
+                * 2-160 (320*1/2)
+                * 3-213 (320*2/3)
+                * 4-240 (320*3/4)
+                * */
+
+                //Установка ограничения по тасканию картинки
+                let width = this.bitmap.width;
+                let height = this.bitmap.height;
+                let x = width / 2 * (zoom - 1) / zoom;
+                let y = height / 2 * (zoom - 1) / zoom;
+                if (imageX >= x) imageX = x;
+                if (imageY >= y) imageY = y;
+                if (imageX <= -x) imageX = -x;
+                if (imageY <= -y) imageY = -y;
+
+
+                this.changeCamZoom(zoom, imageX, imageY);
+            });
+
+            registerScale(speed => {
+                zoom = tempZoom * speed;
+                if (zoom < 1) zoom = 1;
+                if (zoom > 10) zoom = 10;
+                this.changeCamZoom(zoom, imageX, imageY);
+            }, () => tempZoom = zoom);
+        }
+    }
+
+    changeCamZoom(zoom, positionX, positionY) {
+        this.bitmap.style.transform = `scale(${zoom}) translateX(${positionX}px) translateY(${positionY}px)`;
+    }
 
     render() {
         let className = classNames(style['normal'], {
@@ -98,16 +166,21 @@ export default class Card extends React.Component {
     }
 
     renderStats() {
-        return <img src='img/data/richdata.svg' alt='stats' className={style['cam']}/>;
+        return <img src='img/data/richdata.svg' alt='stats' className={style['stats']}/>;
     }
 
     renderCam() {
-        return <img srcSet='img/data/bitmap1.png 790w,
+        return (
+            <div className={style['stats']}>
+                <img srcSet='img/data/bitmap1.png 790w,
                              img/data/bitmap2.png 1140w,
                              img/data/bitmap3.png 1490w'
-                    alt='cam'
-                    className={style['cam']}
-        />;
+                     alt='cam'
+                     className={style['cam']}
+                     ref={bitmap => this.bitmap = bitmap}
+                />
+            </div>
+        );
     }
 
     renderButtons(buttons) {

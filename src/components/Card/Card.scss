@@ -44,6 +44,7 @@
   background-repeat: no-repeat;
   background-position: center;
   background-color: inherit;
+  z-index: 1; /*для перебития transform в данных пылесоса*/
 }
 
 .critical .cross {
@@ -161,9 +162,18 @@
 }
 
 /*Данные камеры*/
-.cam {
+.stats {
   border-radius: $border-radius;
   width: 100%;
+  overflow: hidden;
+}
+
+.cam {
+  width: 100%;
+
+  transform: scale(2);
+  touch-action: none;
+  user-select: none;
 }
 
 /*Данные температуры*/
