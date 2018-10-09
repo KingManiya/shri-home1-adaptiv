@@ -24,6 +24,13 @@ export default class Card extends React.Component {
         // large: PropTypes.bool,
     };
 
+    state = {
+        zoom: 2,
+        positionPercentX: 50,
+        positionPercentY: 50,
+        contrast: 100,
+    };
+
     componentDidMount() {
         if (this.bitmap) {
             this.bitmap.addEventListener('pointermove', changePoint);
@@ -42,6 +49,7 @@ export default class Card extends React.Component {
                 if (contrast < 0) contrast = 0;
                 if (contrast > 300) contrast = 300;
                 this.bitmap.style.filter = `brightness(${contrast}%)`;
+                this.setState({contrast});
             });
 
 
@@ -69,6 +77,10 @@ export default class Card extends React.Component {
 
 
                 this.changeCamZoom(zoom, imageX, imageY);
+                let positionPercentX = x ? (x - imageX) / (x * 2) * 100 : 100;
+                let positionPercentY = y ? (y - imageY) / (y * 2) * 100 : 100;
+
+                this.setState({positionPercentX, positionPercentY, zoom});
             });
 
             registerScale(speed => {
@@ -171,16 +183,41 @@ export default class Card extends React.Component {
 
     renderCam() {
         return (
-            <div className={style['stats']}>
-                <img srcSet='img/data/bitmap1.png 790w,
+            <div className={style['']}>
+                <div className={style['stats']}>
+                    <img srcSet='img/data/bitmap1.png 790w,
                              img/data/bitmap2.png 1140w,
                              img/data/bitmap3.png 1490w'
-                     alt='cam'
-                     className={style['cam']}
-                     ref={bitmap => this.bitmap = bitmap}
-                />
+                         alt='cam'
+                         className={style['cam']}
+                         ref={bitmap => this.bitmap = bitmap}
+                         onMouseDown={(e) => e.preventDefault()}
+                    />
+                </div>
+                {this.renderTouch()}
             </div>
+
         );
+    }
+
+    renderTouch() {
+        if (!('ontouchstart' in window)) return null;
+
+        return [
+            <div className={style['temp_text']}>
+                {`Яркость: ${this.state.contrast.toFixed(0)}%`}
+            </div>,
+            <div className={style['temp_text']}>
+                {`Увеличение: ${this.state.zoom.toFixed(1)}x`}
+            </div>,
+            <div className={style['temp_text']}>
+                {`Положение по горизонтале: ${this.state.positionPercentX.toFixed(0)}%`}
+            </div>,
+            <div className={style['temp_text']}>
+                {`Положение по вертикале: ${this.state.positionPercentY.toFixed(0)}%`}
+            </div>
+
+        ]
     }
 
     renderButtons(buttons) {
