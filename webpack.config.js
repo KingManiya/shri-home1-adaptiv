@@ -36,8 +36,7 @@ module.exports = (env, argv) => ({
             {
                 test: /\.scss$/,
                 use: [
-                    // MiniCssExtractPlugin.loader,
-                    "style-loader",
+                    argv.mode === 'production' ? MiniCssExtractPlugin.loader : "style-loader",
                     {
                         loader: 'css-loader',
                         options: {
@@ -74,7 +73,7 @@ module.exports = (env, argv) => ({
         ],
     },
     plugins: [
-        // new MiniCssExtractPlugin(),
+        new MiniCssExtractPlugin(),
         new HtmlWebpackPlugin({
             template: path.resolve(SRC_PATH, 'index.html')
         }),
