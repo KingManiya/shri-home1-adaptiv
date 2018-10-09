@@ -1,4 +1,4 @@
-@import "../../css/constants.scss";
+@import "../../css/constants";
 
 .small {
   grid-column: span 2;
@@ -14,18 +14,18 @@
 }
 
 .normal {
-  background-color: #FAFAFA;
+  background-color: #fafafa;
   border-radius: $border-radius;
   padding: $desktop-margin;
   display: flex;
   flex-direction: column;
   position: relative;
-  transition: background-color .3s, box-shadow .3s;
+  transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 .normal:hover {
-  background-color: #F3F3F3;
-  box-shadow: 0 2px 6px 0 rgba(197, 186, 186, 0.50);
+  background-color: #f3f3f3;
+  box-shadow: 0 2px 6px 0 rgba(197, 186, 186, 0.5);
 }
 
 .normal:hover .action {
@@ -35,7 +35,7 @@
 .action {
   position: absolute;
   opacity: 0;
-  transition: opacity .3s;
+  transition: opacity 0.3s;
   right: 15px;
   cursor: pointer;
   width: 26px;
@@ -44,34 +44,35 @@
   background-repeat: no-repeat;
   background-position: center;
   background-color: inherit;
-  z-index: 1; /*для перебития transform в данных пылесоса*/
+  z-index: 1; /* для перебития transform в данных пылесоса */
 }
 
 .critical .cross {
-  background-image: url('../Card/img/cross-white.svg');
+  background-image: url("../Card/img/cross-white.svg");
   background-color: #d44c3a;
 }
 
 .cross {
   composes: action;
-  background-image: url('../Card/img/cross.svg');
+  background-image: url("../Card/img/cross.svg");
   top: 15px;
 }
 
 .next {
   composes: action;
-  background-image: url('../Card/img/next.svg');
+  background-image: url("../Card/img/next.svg");
   bottom: 15px;
-  /*box-shadow: #d8d8d8 -2px -2px 20px;*/
+
+  /* box-shadow: #d8d8d8 -2px -2px 20px; */
 }
 
 .critical .header {
-  background-color: #DB5341;
+  background-color: #db5341;
   margin: (-$desktop-margin) (-$desktop-margin) 0 (-$desktop-margin);
   padding: $desktop-margin $desktop-margin $desktop-margin * 2 $desktop-margin;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
-  transition: background-color .3s;
+  transition: background-color 0.3s;
 }
 
 .critical:hover .header {
@@ -79,7 +80,7 @@
 }
 
 .critical .header div {
-  color: white;
+  color: #fff;
 }
 
 .header {
@@ -89,7 +90,6 @@
   height: 58px;
   display: flex;
   align-items: center;
-
 }
 
 .header_icon {
@@ -100,7 +100,7 @@
 
 .header_title {
   font-size: 24px;
-  color: #333333;
+  color: #333;
   font-weight: bold;
 }
 
@@ -114,7 +114,7 @@
   composes: header_info;
 }
 
-/*Добавляем перенос на вторую строку для времени в больших разрешениях*/
+/* Добавляем перенос на вторую строку для времени в больших разрешениях */
 @media ($media-desktop2-at) {
   .header_info2 {
     flex-direction: column;
@@ -124,7 +124,7 @@
 
 .header_info_text {
   font-size: 18px;
-  color: #333333;
+  color: #333;
 }
 
 .content {
@@ -147,7 +147,7 @@
 
 .description_big {
   font-size: 24px;
-  color: #333333;
+  color: #333;
 }
 
 .data {
@@ -155,13 +155,13 @@
   padding-top: 25px;
 }
 
-/*Данные кнопок*/
+/* Данные кнопок */
 .buttons {
   margin-top: auto;
   display: flex;
 }
 
-/*Данные камеры*/
+/* Данные камеры */
 .stats {
   border-radius: $border-radius;
   width: 100%;
@@ -176,7 +176,7 @@
   user-select: none;
 }
 
-/*Данные температуры*/
+/* Данные температуры */
 .thermal {
   margin-top: auto;
   display: flex;
@@ -198,7 +198,7 @@
 }
 
 @media ($media-mobile-to) {
-  /*Действия прибиываем к краю*/
+  /* Действия прибиываем к краю */
   .action {
     right: 10px;
   }
@@ -211,7 +211,7 @@
     bottom: 10px;
   }
 
-  /*Уменьшаем отступы у карточки*/
+  /* Уменьшаем отступы у карточки */
   .normal {
     padding: $mobile-margin;
   }
@@ -247,15 +247,15 @@
   .description_normal,
   .description_big {
     font-size: 18px;
-    color: #333333;
+    color: #333;
   }
 
-  /*Данные кнопок: кнопки по краям карточки*/
+  /* Данные кнопок: кнопки по краям карточки */
   .buttons {
     justify-content: space-between;
   }
 
-  /*Данные температуры: по краям карточки*/
+  /* Данные температуры: по краям карточки */
   .thermal {
     justify-content: space-between;
   }
@@ -269,7 +269,7 @@
   }
 }
 
-/*4 один столбик узкие отступы, динамическая ширина*/
+/* 4 один столбик узкие отступы, динамическая ширина */
 @media ($media-desktop1-to) {
   .small,
   .medium {
@@ -277,7 +277,7 @@
   }
 }
 
-/*8 широкоформатный режим*/
+/* 8 широкоформатный режим */
 @media ($media-desktop3-at) {
   .medium {
     grid-column: span 4;

@@ -5,8 +5,8 @@
   "scripts": {
     "start": "webpack-dev-server --hot --progress",
     "build": "webpack --mode=production",
-    "stylelint": "stylelint src/**/*.scss",
-    "stylelint-fix": "stylelint --fix src/**/*.scss"
+    "stylelint": "stylelint src/**/**/*.scss",
+    "stylelint-fix": "stylelint --fix src/**/**/*.scss"
   },
   "repository": {
     "type": "git",

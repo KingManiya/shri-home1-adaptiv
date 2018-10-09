@@ -1,9 +1,9 @@
-@import "../../css/constants.scss";
+@import "../../css/constants";
 
 .normal {
   width: 132px;
   border-radius: 8px;
-  background-color: #E5E5E5;
+  background-color: #e5e5e5;
   line-height: 54px;
   text-align: center;
   font-size: 20px;
@@ -14,7 +14,7 @@
 
 .active {
   composes: normal;
-  background-color: #FFD93E;
+  background-color: #ffd93e;
 }
 
 .normal:not(:last-child) {

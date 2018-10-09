@@ -13,7 +13,7 @@ module.exports = (env, argv) => ({
         filename: 'index.js',
     },
     resolve: {
-        extensions: ['.js', '.jsx', '.json'],
+        extensions: ['.js', '.jsx', '.json', '.scss'],
     },
     module: {
 

@@ -1,8 +1,8 @@
-@import "../../css/constants.scss";
+@import "../../css/constants";
 
 .normal {
   height: 89px;
-  border-bottom: 1px solid #F0F0F0;
+  border-bottom: 1px solid #f0f0f0;
 
   display: flex;
   align-items: center;
@@ -25,7 +25,7 @@
 .link {
   line-height: 20px;
   font-size: 16px;
-  color: #333333;
+  color: #333;
   margin-left: 28px;
   opacity: 0.6;
   font-weight: bold;
@@ -47,18 +47,18 @@
 }
 
 @media ($media-mobile-to) {
-  /*Прибиваем шапку*/
+  /* Прибиваем шапку */
   .normal {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 2;
-    background: white;
+    background: #fff;
     height: 69px;
   }
 
-  /*Скрываем навигацию, показываем меню*/
+  /* Скрываем навигацию, показываем меню */
   .links {
     display: none;
     grid-template-columns: 1fr 1fr;
@@ -71,7 +71,7 @@
     display: initial;
   }
 
-  /*При активном меню прям лого, показываем навигацию*/
+  /* При активном меню прям лого, показываем навигацию */
   .menu_active .logo {
     display: none;
   }

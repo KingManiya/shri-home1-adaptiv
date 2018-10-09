@@ -1,6 +1,7 @@
-@import "../../css/constants.scss";
+@import "../../css/constants";
 
 .normal {
+
 }
 
 .image {
@@ -39,7 +40,7 @@
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  width: 0; /*Для троеточия на title*/
+  width: 0; /* Для троеточия на title */
 }
 
 .song_player_line {
@@ -61,7 +62,7 @@
   left: 10%;
   width: 9px;
   height: 20px;
-  background: #D8D8D8;
+  background: #d8d8d8;
   border-radius: 4.5px;
   cursor: pointer;
 }
@@ -88,7 +89,7 @@
 .volume {
   flex-grow: 1;
   height: 4px;
-  background-color: rgba(216, 216, 216, 0.30);
+  background-color: rgba(216, 216, 216, 0.3);
   margin: 0 0 0 15px;
   position: relative;
 }
