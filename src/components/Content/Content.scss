@@ -2,17 +2,12 @@
 
 .normal {
   min-height: calc(100% - 90px - 65px);
-  display: grid;
-  grid-gap: 20px;
-  grid-auto-flow: dense;
-  justify-content: center;
 }
 
 .header {
   font-weight: bold;
   font-size: 36px;
   color: #333;
-  grid-column: 1 / -1;
   line-height: 110px;
 }
 
@@ -32,27 +27,5 @@
 @media ($media-tablet-to) {
   .normal {
     padding: 0 20px;
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-/* 4 один столбик, динамические отступы, фиксированная ширина */
-@media ($media-desktop1-at) and ($media-desktop1-to) {
-  .normal {
-    grid-template-columns: repeat(4, 155px);
-  }
-}
-
-/* 6 как в макете */
-@media ($media-desktop2-at) and ($media-desktop2-to) {
-  .normal {
-    grid-template-columns: repeat(6, 155px);
-  }
-}
-
-/* 8 широкоформатный режим */
-@media ($media-desktop3-at) {
-  .normal {
-    grid-template-columns: repeat(8, 155px);
   }
 }
