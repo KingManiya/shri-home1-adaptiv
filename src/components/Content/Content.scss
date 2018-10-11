@@ -1,7 +1,9 @@
 @import "../../css/constants";
 
 .normal {
-  min-height: calc(100% - 90px - 65px);
+  flex-grow: 1;
+  margin: 0 auto;
+  padding-bottom: 80px;
 }
 
 .header {
@@ -13,19 +15,21 @@
 
 @media ($media-mobile-to) {
   .normal {
-    margin-top: 90px;
+    margin-top: 70px;
     grid-gap: 16px;
+    padding-top: 20px !important;
   }
 
   .header {
-    line-height: 36px;
+    line-height: initial;
     font-size: 24px;
+    padding-bottom: 20px;
   }
 }
 
 /* 4 один столбик узкие отступы, динамическая ширина */
 @media ($media-tablet-to) {
   .normal {
-    padding: 0 20px;
+    padding: 0 20px 20px;
   }
 }

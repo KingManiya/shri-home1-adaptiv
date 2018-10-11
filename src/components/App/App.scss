@@ -1,6 +1,8 @@
 .normal {
   height: 100%;
   font-family: ArialMT, Arial, serif;
+  display: flex;
+  flex-direction: column;
 }
 
 html,
