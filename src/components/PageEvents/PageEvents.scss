@@ -1,0 +1,35 @@
+@import "../../css/constants";
+
+.normal {
+  display: grid;
+  grid-gap: 20px;
+  grid-auto-flow: dense;
+}
+
+/* 4 один столбик узкие отступы, динамическая ширина */
+@media ($media-tablet-to) {
+  .normal {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* 4 один столбик, динамические отступы, фиксированная ширина */
+@media ($media-desktop1-at) and ($media-desktop1-to) {
+  .normal {
+    grid-template-columns: repeat(4, 155px);
+  }
+}
+
+/* 6 как в макете */
+@media ($media-desktop2-at) and ($media-desktop2-to) {
+  .normal {
+    grid-template-columns: repeat(6, 155px);
+  }
+}
+
+/* 8 широкоформатный режим */
+@media ($media-desktop3-at) {
+  .normal {
+    grid-template-columns: repeat(8, 155px);
+  }
+}

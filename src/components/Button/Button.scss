@@ -1,7 +1,6 @@
 @import "../../css/constants";
 
 .normal {
-  width: 132px;
   border-radius: 8px;
   background-color: #e5e5e5;
   line-height: 54px;
@@ -10,6 +9,8 @@
   font-weight: bold;
   cursor: pointer;
   user-select: none;
+  padding: 0 10px;
+  box-sizing: border-box;
 }
 
 .active {

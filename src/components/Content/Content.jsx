@@ -4,18 +4,17 @@
 
 import React from 'react'
 import style from './Content.scss'
-import Card from "../Card/Card";
 
 export default class Content extends React.Component {
     render() {
-        const events = this.props.events.map((event, index) => <Card {...event} key={index}/>);
-
         return (
             <div className={style['normal']}>
                 <div className={style['header']}>
-                    Лента событий
+                    {this.props.title}
                 </div>
-                {events}
+                <div className={this.props.className}>
+                    {this.props.children}
+                </div>
             </div>
         )
     }

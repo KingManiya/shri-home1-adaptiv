@@ -8,6 +8,7 @@
   align-items: center;
   padding: 0 40px;
   position: relative;
+  flex-shrink: 0;
 }
 
 .menu_active {
@@ -33,7 +34,6 @@
 }
 
 .link_active {
-  composes: link;
   opacity: 1;
 }
 

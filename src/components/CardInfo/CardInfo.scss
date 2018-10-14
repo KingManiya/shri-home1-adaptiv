@@ -1,0 +1,30 @@
+@import "../../css/constants";
+
+.normal {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.two {
+  composes: normal;
+}
+
+.text {
+  font-size: 18px;
+  color: #333;
+}
+
+/* Добавляем перенос на вторую строку для времени в больших разрешениях */
+@media ($media-desktop2-at) {
+  .two {
+    flex-direction: column;
+    height: 60px;
+  }
+}
+
+@media ($media-mobile-to) {
+  .header_info_text {
+    font-size: 12px;
+  }
+}

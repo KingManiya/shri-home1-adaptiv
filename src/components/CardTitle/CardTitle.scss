@@ -1,0 +1,44 @@
+@import "../../css/constants";
+
+.normal {
+  height: 58px;
+  display: flex;
+  align-items: center;
+}
+
+.critical {
+  composes: normal;
+}
+
+.icon {
+  width: 48px;
+  height: 48px;
+  margin-right: $desktop-margin;
+}
+
+.title {
+  font-size: 24px;
+  color: #333;
+  font-weight: bold;
+}
+
+.critical .title {
+  color: #ffffff;
+}
+
+@media ($media-mobile-to) {
+
+  .normal {
+    height: initial;
+  }
+
+  .icon {
+    width: 35px;
+    height: 35px;
+    margin-right: $mobile-margin;
+  }
+
+  .title {
+    font-size: 14px;
+  }
+}

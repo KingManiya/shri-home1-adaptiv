@@ -4,6 +4,7 @@
 
 import React from 'react'
 import style from './Header.scss'
+import {NavLink} from "react-router-dom";
 
 export default class Header extends React.Component {
     state = {
@@ -15,18 +16,31 @@ export default class Header extends React.Component {
             <div className={this.state.menuActive ? style['menu_active'] : style['normal']}>
                 <a className={style['logo']} href='#'/>
                 <div className={style['links']}>
-                    <a className={style['link_active']} href='#'>
+                    <NavLink to="/" className={style['link']} exact
+                             activeClassName={style['link_active']}
+                    >
                         События
-                    </a>
-                    <a className={style['link']} href='#'>
+                    </NavLink>
+                    <NavLink to="/info" className={style['link']}
+                             activeClassName={style['link_active']}
+                    >
                         Сводка
-                    </a>
-                    <a className={style['link']} href='#'>
+                    </NavLink>
+                    <NavLink to="/devices" className={style['link']}
+                             activeClassName={style['link_active']}
+                    >
                         Устройства
-                    </a>
-                    <a className={style['link']} href='#'>
-                        Сценарии
-                    </a>
+                    </NavLink>
+                    {/*<NavLink to="/scenarios" className={style['link']}*/}
+                    {/*activeClassName={style['link_active']}*/}
+                    {/*>*/}
+                    {/*Сценарии*/}
+                    {/*</NavLink>*/}
+                    <NavLink to="/cams" className={style['link']}
+                             activeClassName={style['link_active']}
+                    >
+                        Камеры
+                    </NavLink>
                 </div>
                 <div className={style['menu']}
                      onClick={() => this.setState({menuActive: !this.state.menuActive})}

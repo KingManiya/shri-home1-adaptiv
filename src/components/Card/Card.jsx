@@ -16,6 +16,8 @@ import {
     registerRotate,
     registerScale
 } from "../../helpers/gestures";
+import CardTitle from "../CardTitle/CardTitle";
+import CardInfo from "../CardInfo/CardInfo";
 
 export default class Card extends React.Component {
     static propTypes = {
@@ -116,60 +118,49 @@ export default class Card extends React.Component {
     }
 
     renderMain() {
+        const critical = this.props.type === 'critical';
+
         return (
             <div className={style['header']}>
-                <div className={style['header_line']}>
-                    <img src={`img/icons/${this.props.icon}.svg`} alt="" className={style['header_icon']}/>
-                    <div className={style['header_title']}>
-                        {this.props.title}
-                    </div>
-                </div>
-                <div className={this.props.size === 's' ? style['header_info2'] : style['header_info']}>
-                    <div className={style['header_info_text']}>
-                        {this.props.source}
-                    </div>
-                    <div className={style['header_info_text']}>
-                        {this.props.time}
-                    </div>
-                </div>
+                <CardTitle critical={critical} title={this.props.title} icon={this.props.icon}/>
+                <CardInfo twoLine={this.props.size === 's'} source={this.props.source} time={this.props.time}/>
             </div>
         )
     }
 
     renderContent() {
-        if (this.props.description) {
-            return (
-                <div className={style['content']}>
+        return (
+            <div className={style['content']}>
+                {!this.props.description ? null :
                     <div className={this.props.size === 'l' ? style['description_big'] : style['description_normal']}>
                         {this.props.description}
                     </div>
-                    {!this.props.data ? null :
-                        <div className={style['data']}>
-                            {this.renderData(this.props.icon, this.props.data)}
-                        </div>
-                    }
-                </div>
-            )
-        }
+                }
+                {!this.props.data ? null :
+                    <div className={style['data']}>
+                        {this.renderData(this.props.data)}
+                    </div>
+                }
+            </div>
+        )
     }
 
-    renderData(type, data) {
+    renderData(data) {
 
-        switch (type) {
-            case 'stats':
-                return this.renderStats();
-            case 'cam':
-                return this.renderCam();
-            case 'thermal':
-                return this.renderThermal(data.temperature, data.humidity);
-            case 'fridge':
-                return this.renderButtons(data.buttons);
-            case 'music':
-                return <Player albumcover={data.albumcover}
-                               artist={data.artist}
-                               name={data.track.name}
-                               length={data.track.length}
-                               volume={data.volume}
+        if (data.type === 'graph') {
+            return this.renderStats();
+        } else if (data.image) {
+            return this.renderCam();
+        } else if (data.temperature) {
+            return this.renderThermal(data.temperature, data.humidity);
+        } else if (data.buttons) {
+            return this.renderButtons(data.buttons);
+        } else if (data.track) {
+            return <Player albumcover={data.albumcover}
+                           artist={data.artist}
+                           name={data.track.name}
+                           length={data.track.length}
+                           volume={data.volume}
 
                 />
         }
@@ -224,9 +215,7 @@ export default class Card extends React.Component {
         return (
             <div className={style['buttons']}>
                 {buttons.map((text, index) =>
-                    <Button active={!index} key={index}>
-                        {text}
-                    </Button>
+                    <Button active={!index} key={index} width={152} text={text}/>
                 )}
             </div>
         )
