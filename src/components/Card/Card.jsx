@@ -215,9 +215,7 @@ export default class Card extends React.Component {
         return (
             <div className={style['buttons']}>
                 {buttons.map((text, index) =>
-                    <Button active={!index} key={index}>
-                        {text}
-                    </Button>
+                    <Button active={!index} key={index} width={152} text={text}/>
                 )}
             </div>
         )
