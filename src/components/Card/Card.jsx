@@ -18,6 +18,7 @@ import {
 } from "../../helpers/gestures";
 import CardTitle from "../CardTitle/CardTitle";
 import CardInfo from "../CardInfo/CardInfo";
+import Video from "../Video/Video";
 
 export default class Card extends React.Component {
     static propTypes = {
@@ -162,7 +163,9 @@ export default class Card extends React.Component {
                            length={data.track.length}
                            volume={data.volume}
 
-                />
+            />
+        } else if (data.video) {
+            return <Video url={data.video}/>;
         }
 
 

@@ -1,0 +1,28 @@
+.video {
+  transition: transform 0.5s;
+}
+
+.relative {
+  position: relative;
+  z-index: 3;
+}
+
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #000;
+  animation: show 0.5s;
+}
+
+@keyframes show {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
