@@ -1,0 +1,52 @@
+{
+  "cams": [
+    {
+      "type": "info",
+      "title": "Сосед",
+      "source": "Подъезд",
+      "time": "Сейчас",
+      "description": null,
+      "icon": "cam-black",
+      "data": {
+        "video": "https://shri-smart-house.herokuapp.com/sosed%2Fmaster.m3u8"
+      },
+      "size": "s"
+    },
+    {
+      "type": "info",
+      "title": "Киса",
+      "source": "Прихожая",
+      "time": "Сейчас",
+      "description": null,
+      "icon": "cam-black",
+      "data": {
+        "video": "https://shri-smart-house.herokuapp.com/cat%2Fmaster.m3u8"
+      },
+      "size": "s"
+    },
+    {
+      "type": "info",
+      "title": "Собака",
+      "source": "Улица",
+      "time": "Сейчас",
+      "description": null,
+      "icon": "cam-black",
+      "data": {
+        "video": "https://shri-smart-house.herokuapp.com/dog%2Fmaster.m3u8"
+      },
+      "size": "s"
+    },
+    {
+      "type": "info",
+      "title": "Прохожий",
+      "source": "Коридор",
+      "time": "Сейчас",
+      "description": null,
+      "icon": "cam-black",
+      "data": {
+        "video": "https://shri-smart-house.herokuapp.com/hall%2Fmaster.m3u8"
+      },
+      "size": "s"
+    }
+  ]
+}

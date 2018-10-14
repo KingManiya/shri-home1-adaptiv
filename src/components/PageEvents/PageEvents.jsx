@@ -5,7 +5,7 @@
 import React from 'react'
 import Content from "../Content/Content";
 import Card from "../Card/Card";
-import eventsData from '../../events'
+import eventsData from '../../../data/events'
 import style from "./PageEvents.scss";
 
 export default class PageEvents extends React.Component {
