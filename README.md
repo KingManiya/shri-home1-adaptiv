@@ -82,6 +82,62 @@ npm start
 Настройки следует подбирать на основании источника видео. Например, на видео с собакой хорошо подходят настройки - пропуск: 1, кадров для анализа 3, точность X\Y: 1, погрешность 70.
 Из за скорости собаки количество кадров для анализа можно снизить, что бы не было большого прямоугольника, а точность нужно повысить, так как собака очень маленькая на экране.
 
+## Четвертое задание
+
+Для запуска сервера
+* npm run server обычный старт сервера
+* npm run server-dev для запуска в nodemon режиме.
+
+Сервер запускается на 8000 порту
+
+Клиентская часть подключена к серверу http://localhost:8000
+
+Реализованы get запросы:
+* /status
+* /api/events
+* /api/cams
+
+Реализованы post запросы:
+* /api/events (параметры в json формате)
+
+/api/events поддерживает параметры: type (разделить двоеточие), offset, limit
+
+*Примеры:*
+
+    * GET http://localhost:8000/status - 00:00:42
+
+    * GET http://localhost:8000/api/events
+
+    * GET http://localhost:8000/api/events?type=info:critical:bobo:asdf - ошибка 400
+
+    * GET http://localhost:8000/api/events?type=info:critical
+
+    * GET http://localhost:8000/api/events?type=critical
+
+    * GET http://localhost:8000/api/events?type=info&limit=6
+
+    * GET http://localhost:8000/api/events?type=info:critical&offset=3&limit=25
+
+    * GET http://localhost:8000/api/events?type=info:critical&offset=3&limit=2
+
+    * GET http://localhost:8000/api/events?offset=8
+
+    * GET http://localhost:8000/api/events?type=critical&offset=8
+
+    * POST http://localhost:8000/api/events
+
+    Content-Type: application/json
+
+    {
+      "type": "critical",
+      "offset": 2
+    }
+
+    * GET http://localhost:8000/api/cams
+
+    * GET http://localhost:8000/api/asdf - ошибка 404
+
+
 ## Контакты
 
 Доступен в телеграме по нику @KingManiya
