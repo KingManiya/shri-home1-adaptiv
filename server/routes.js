@@ -20,8 +20,8 @@ function registerRoutes(app) {
 
 function parseEvents(req, res) {
     const type = req.body.type || req.query.type;
-    const offset = +req.body.offset || req.query.offset || 0;
-    const limit = +req.body.limit || req.query.limit || 0;
+    const offset = +req.body.offset || +req.query.offset || 0;
+    const limit = +req.body.limit || +req.query.limit || 0;
 
     getData.getEvents(type, offset, limit)
         .then(json => res.json(json))
