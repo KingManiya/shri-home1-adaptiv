@@ -8,6 +8,7 @@ import VideoPlayer from "../VideoPlayer/VideoPlayer";
 import PropTypes from 'prop-types'
 import AudioAnalyser from '../../helpers/AudioAnalyser'
 import VideoControls from "../VideoControls/VideoControls";
+import CanvasMoveDetector from "../CanvasMoveDetector/CanvasMoveDetector";
 
 export default class Video extends React.Component {
 
@@ -20,6 +21,20 @@ export default class Video extends React.Component {
         relative: false,
         contrast: 1,
         brightness: 1,
+
+        detector: false, //детектор движения
+
+        showDelta: false, //скрывать разницу в пикселях
+        skip: 2, //Пропуск кадров
+        frameForAnalise: 5, //Количество кадров для анализа движения
+        stepX: 5, //Точность по X
+        stepY: 5, //Точность по Y
+        threshold: 70, //Погрешность в отклонении цвета пикселя
+
+        width: 0,
+        height: 0,
+        top: 0,
+        left: 0,
     };
 
     render() {
@@ -28,12 +43,30 @@ export default class Video extends React.Component {
                  onClick={this.onClickHandler.bind(this)}
             >
                 {this.state.fullscreen ? <div className={style['background']}/> : null}
+                {!this.state.detector ? null :
+                    <CanvasMoveDetector contrast={this.state.contrast}
+                                        brightness={this.state.brightness}
+
+                                        video={this.video}
+                                        width={this.state.width}
+                                        height={this.state.height}
+                                        top={this.state.top}
+                                        left={this.state.left}
+
+                                        showDelta={this.state.showDelta}
+                                        skip={this.state.skip}
+                                        frameForAnalise={this.state.frameForAnalise}
+                                        stepX={this.state.stepX}
+                                        stepY={this.state.stepY}
+                                        threshold={this.state.threshold}
+                    />
+                }
                 <VideoPlayer url={this.props.url}
                              element={video => this.video = video}
                              contrast={this.state.contrast}
                              brightness={this.state.brightness}
                              muted={!this.state.fullscreen}
-                             className={style['video']}
+                             className={this.state.detector ? style['hide'] : style['video']}
                 />
                 {this.state.fullscreen ? this.renderControls() : null}
             </div>
@@ -46,15 +79,53 @@ export default class Video extends React.Component {
                            onUpdateBrightness={brightness => this.setState({brightness})}
                            contrast={this.state.contrast}
                            onUpdateContrast={contrast => this.setState({contrast})}
-                           onClose={() => this.setState({fullscreen: false})}
+                           onClose={this.onClickHandler.bind(this)}
                            analyser={this.state.analyser}
                            video={this.video}
+
+                           width={this.state.width}
+                           height={this.state.height}
+
+                           detector={this.state.detector}
+                           onDetector={this.onChangeDetect.bind(this)}
+
+                           showDelta={this.state.showDelta}
+                           skip={this.state.skip}
+                           frameForAnalise={this.state.frameForAnalise}
+                           stepX={this.state.stepX}
+                           stepY={this.state.stepY}
+                           threshold={this.state.threshold}
+
+                           onUpdateShowDelta={showDelta => this.setState({showDelta})}
+                           onUpdateFrameForAnalise={frameForAnalise => this.setState({frameForAnalise})}
+                           onUpdateSkip={skip => this.setState({skip})}
+                           onUpdateStepX={stepX => this.setState({stepX})}
+                           onUpdateStepY={stepY => this.setState({stepY})}
+                           onUpdateThreshold={threshold => this.setState({threshold})}
 
             />
         )
     }
 
+    onChangeDetect() {
+        let detector = !this.state.detector;
+        if (detector) {
+            const {width, height, x: left, y: top} = this.video.getBoundingClientRect();
+
+            this.setState({width: Math.floor(width), height: Math.floor(height), top, left});
+        }
+        this.setState({detector});
+    }
+
     onClickHandler() {
+        //Выключаем канвас, что бы плавно анамировать видео
+        if (this.state.detector) {
+            this.setState({detector: false});
+            setTimeout(this.onClickHandler.bind(this), 16);
+            return false;
+        }
+
+
         if (!this.state.analyser) {
             this.setState({analyser: new AudioAnalyser(this.video)});
         }
@@ -116,6 +187,18 @@ export default class Video extends React.Component {
 
     //При изменении размера экрана, убираем анимацию
     onResize() {
+        //Выключаем канвас, что бы корректно развернуть видео
+        if (this.state.detector) {
+            this.setState({detector: false});
+            setTimeout(this.onResize.bind(this), 16);
+            this.detectorResizeHack = true;
+            return false;
+        }
+        //Хак на включение детектора движения после изменения размера
+        if (this.detectorResizeHack) {
+            this.detectorResizeHack = false;
+            setTimeout(this.onChangeDetect.bind(this), 16);
+        }
         let transition = this.video.style.transition;
         this.video.style.transition = 'none';
         // this.video.getBoundingClientRect();
