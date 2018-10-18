@@ -26,7 +26,7 @@ export default class BarDiagram extends React.Component {
 
     render() {
         return (
-            <canvas ref={canvas => this.canvas = canvas} style={{width: 300, height: 50}}/>
+            <canvas ref={canvas => this.canvas = canvas} style={{width: 270, height: 50}}/>
         )
     }
 

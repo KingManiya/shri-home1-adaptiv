@@ -9,7 +9,8 @@
   background-color: rgba(50, 50, 50, 0.4);
   animation: show 1s cubic-bezier(0.55, 0.055, 0.675, 0.19);
   z-index: 4;
-  width: 310px;
+  width: 270px;
+  font-size: 12px;
 }
 
 .line {
@@ -20,6 +21,7 @@
 .text {
   color: #fff;
   user-select: none;
+  font-size: 12px;
 }
 
 .button {
