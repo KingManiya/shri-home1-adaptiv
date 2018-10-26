@@ -2,49 +2,75 @@
  * Created by user on 12.10.18.
  */
 
-import React from 'react'
-import VideoPlayer from "../VideoPlayer/VideoPlayer";
-import PropTypes from 'prop-types'
-import AudioAnalyser from '../../helpers/AudioAnalyser'
-import VideoControls from "../VideoControls/VideoControls";
-import CanvasMoveDetector from "../CanvasMoveDetector/CanvasMoveDetector";
+import React from 'react';
+import AudioAnalyser from '../../helpers/AudioAnalyser';
+import CanvasMoveDetector from '../CanvasMoveDetector/CanvasMoveDetector';
+import VideoControls from '../VideoControls/VideoControls';
+import VideoPlayer from '../VideoPlayer/VideoPlayer';
 
 const style = require('./Video.scss');
 
-export default class Video extends React.Component {
+interface IVideoProps {
+    url: string;
+}
 
-    static propTypes = {
-        url: PropTypes.string.isRequired,
-    };
+interface IVideoState {
+    fullscreen: boolean;
+    relative: boolean;
+    contrast: number;
+    brightness: number;
 
-    state = {
+    detector: boolean;
+    showDelta: boolean;
+    skip: number;
+    frameForAnalise: number;
+    stepX: number;
+    stepY: number;
+    threshold: number;
+
+    width: number;
+    height: number;
+    top: number;
+    left: number;
+
+    analyser: AudioAnalyser | null;
+}
+
+export default class Video extends React.Component<IVideoProps, IVideoState> {
+
+    public state: IVideoState = {
         fullscreen: false,
         relative: false,
         contrast: 1,
         brightness: 1,
 
-        detector: false, //детектор движения
+        detector: false, // детектор движения
 
-        showDelta: false, //скрывать разницу в пикселях
-        skip: 2, //Пропуск кадров
-        frameForAnalise: 5, //Количество кадров для анализа движения
-        stepX: 5, //Точность по X
-        stepY: 5, //Точность по Y
-        threshold: 70, //Погрешность в отклонении цвета пикселя
+        showDelta: false, // скрывать разницу в пикселях
+        skip: 2, // Пропуск кадров
+        frameForAnalise: 5, // Количество кадров для анализа движения
+        stepX: 5, // Точность по X
+        stepY: 5, // Точность по Y
+        threshold: 70, // Погрешность в отклонении цвета пикселя
 
         width: 0,
         height: 0,
         top: 0,
         left: 0,
+
+        analyser: null,
     };
 
-    render() {
+    private video: HTMLVideoElement | null = null;
+    private detectorResizeHack: boolean = false;
+
+    public render() {
         return (
             <div className={this.state.relative ? style['relative'] : null}
                  onClick={this.onClickHandler.bind(this)}
             >
                 {this.state.fullscreen ? <div className={style['background']}/> : null}
-                {!this.state.detector ? null :
+                {!this.state.detector || !this.video ? null :
                     <CanvasMoveDetector contrast={this.state.contrast}
                                         brightness={this.state.brightness}
 
@@ -74,7 +100,9 @@ export default class Video extends React.Component {
         );
     }
 
-    renderControls() {
+    private renderControls() {
+        if (!this.state.analyser || !this.video) return null;
+
         return (
             <VideoControls brightness={this.state.brightness}
                            onUpdateBrightness={brightness => this.setState({brightness})}
@@ -105,50 +133,45 @@ export default class Video extends React.Component {
                            onUpdateThreshold={threshold => this.setState({threshold})}
 
             />
-        )
+        );
     }
 
-    onChangeDetect() {
-        let detector = !this.state.detector;
-        if (detector) {
-            const {width, height, x: left, y: top} = this.video.getBoundingClientRect();
+    private onChangeDetect() {
+        const detector = !this.state.detector;
+        if (detector && this.video) {
+            const {width, height, x: left, y: top} = this.video.getBoundingClientRect() as DOMRect;
 
             this.setState({width: Math.floor(width), height: Math.floor(height), top, left});
         }
         this.setState({detector});
     }
 
-    onClickHandler() {
-        //Выключаем канвас, что бы плавно анамировать видео
+    private onClickHandler() {
+        // Выключаем канвас, что бы плавно анамировать видео
         if (this.state.detector) {
             this.setState({detector: false});
             setTimeout(this.onClickHandler.bind(this), 16);
             return false;
         }
 
-
-        if (!this.state.analyser) {
+        if (!this.state.analyser && this.video) {
             this.setState({analyser: new AudioAnalyser(this.video)});
-        }
-
-        if (!this.resizeHandler) {
-            this.resizeHandler = this.onResize.bind(this);
         }
 
         const fullscreen = !this.state.fullscreen;
 
-        //Запрет на раскрытие, во время сворачивания видео
+        // Запрет на раскрытие, во время сворачивания видео
         if (fullscreen && this.state.relative) return;
 
-        //relative для решения проблем с наложением z-index во время анимаций
+        // relative для решения проблем с наложением z-index во время анимаций
         if (fullscreen) {
             document.body.style.overflow = 'hidden';
             this.setState({relative: true});
-            window.addEventListener('resize', this.resizeHandler);
+            window.addEventListener('resize', this.onResize);
         } else {
             document.body.style.overflow = '';
             setTimeout(() => this.setState({relative: false}), 500);
-            window.removeEventListener('resize', this.resizeHandler);
+            window.removeEventListener('resize', this.onResize);
         }
 
         this.scaleVideo(fullscreen);
@@ -156,24 +179,24 @@ export default class Video extends React.Component {
         this.setState({fullscreen});
     }
 
-
-    //Получение данных видео в оригинальном размере, без учета трансформаций
-    getRectWithoutTransform() {
-        let transform = this.video.style.transform;
-        this.video.style.transform = '';
-        let rect = this.video.getBoundingClientRect();
-        this.video.style.transform = transform;
+    // Получение данных видео в оригинальном размере, без учета трансформаций
+    private getRectWithoutTransform(video: HTMLVideoElement) {
+        const transform = video.style.transform;
+        video.style.transform = '';
+        const rect = video.getBoundingClientRect() as DOMRect;
+        video.style.transform = transform;
         return rect;
     }
 
-    //Масштабируем видео
-    scaleVideo(fullscreen = this.state.fullscreen) {
+    // Масштабируем видео
+    private scaleVideo(fullscreen = this.state.fullscreen) {
+        if (!this.video) return;
         let transform = '';
 
         if (fullscreen) {
             const {innerWidth, innerHeight} = window;
 
-            const {width, height, x, y} = this.getRectWithoutTransform();
+            const {width, height, x, y} = this.getRectWithoutTransform(this.video);
 
             const scale = Math.min(innerWidth / width, innerHeight / height);
 
@@ -186,21 +209,22 @@ export default class Video extends React.Component {
         this.video.style.transform = transform;
     }
 
-    //При изменении размера экрана, убираем анимацию
-    onResize() {
-        //Выключаем канвас, что бы корректно развернуть видео
+    // При изменении размера экрана, убираем анимацию
+    private onResize = () => {
+        if (!this.video) return;
+        // Выключаем канвас, что бы корректно развернуть видео
         if (this.state.detector) {
             this.setState({detector: false});
-            setTimeout(this.onResize.bind(this), 16);
+            setTimeout(this.onResize, 16);
             this.detectorResizeHack = true;
             return false;
         }
-        //Хак на включение детектора движения после изменения размера
+        // Хак на включение детектора движения после изменения размера
         if (this.detectorResizeHack) {
             this.detectorResizeHack = false;
             setTimeout(this.onChangeDetect.bind(this), 16);
         }
-        let transition = this.video.style.transition;
+        const transition = this.video.style.transition;
         this.video.style.transition = 'none';
         // this.video.getBoundingClientRect();
 

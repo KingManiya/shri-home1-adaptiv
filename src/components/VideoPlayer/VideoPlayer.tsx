@@ -2,32 +2,30 @@
  * Created by user on 09.10.18.
  */
 
-import React from 'react'
-import PropTypes from 'prop-types'
-import classNames from 'classnames'
+import classNames from 'classnames';
+import React from 'react';
 
 const style = require('./VideoPlayer.scss');
 
-export default class VideoPlayer extends React.Component {
+interface IVideoPlayer {
+    url: string;
+    brightness: number;
+    contrast: number;
+    element: (element: HTMLVideoElement) => void;
+    muted: boolean;
+    className: string;
+}
 
-    static propTypes = {
-        url: PropTypes.string.isRequired,
-        brightness: PropTypes.number,
-        contrast: PropTypes.number,
-        element: PropTypes.func,
-        muted: PropTypes.bool,
-    };
+export default class VideoPlayer extends React.Component<IVideoPlayer> {
 
-    static defaultProps = {
-        muted: false,
-    };
+    private video: HTMLVideoElement | null = null;
 
-    componentDidMount() {
+    public componentDidMount() {
         this.initVideo();
     }
 
-    render() {
-        let filters = [];
+    public render() {
+        const filters = [];
         if (this.props.brightness) filters.push(`brightness(${this.props.brightness})`);
         if (this.props.contrast) filters.push(`contrast(${this.props.contrast})`);
 
@@ -40,21 +38,24 @@ export default class VideoPlayer extends React.Component {
                    loop
                    ref={video => {
                        this.video = video;
-                       if (this.props.element) this.props.element(video);
+                       if (this.props.element && video) this.props.element(video);
                    }}
                    style={{filter: filters.join(' ')}}
             />
-        )
+        );
     }
 
-    initVideo() {
-
+    private initVideo() {
+        if (!this.video) return;
+        // @ts-ignore
         if (Hls && Hls.isSupported()) {
-            let hls = new Hls();
+            // @ts-ignore
+            const hls = new Hls();
             hls.loadSource(this.props.url);
             hls.attachMedia(this.video);
-            hls.on(Hls.Events.MANIFEST_PARSED, function () {
-                this.video.play();
+            // @ts-ignore
+            hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                if (this.video) this.video.play();
             });
         } else if (this.video.canPlayType('application/vnd.apple.mpegurl')) {
             this.video.src = this.props.url;

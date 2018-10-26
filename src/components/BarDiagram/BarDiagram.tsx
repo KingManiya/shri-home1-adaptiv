@@ -2,7 +2,6 @@
  * Created by user on 13.10.18.
  */
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import AudioAnalyser from '../../helpers/AudioAnalyser';
 
@@ -16,10 +15,6 @@ export default class BarDiagram extends React.Component<IBarDiagram> {
     private height: number = 0;
     private canvas: HTMLCanvasElement | null = null;
     private canvasCtx: CanvasRenderingContext2D | null = null;
-
-    public static propTypes = {
-        analyser: PropTypes.object.isRequired,
-    };
 
     public componentDidMount() {
         if (!this.canvas) return;

@@ -2,72 +2,83 @@
  * Created by user on 14.10.18.
  */
 
-import React from 'react'
-import PropTypes from 'prop-types'
-import BarDiagram from "../BarDiagram/BarDiagram";
+import React from 'react';
+import AudioAnalyser from '../../helpers/AudioAnalyser';
+import BarDiagram from '../BarDiagram/BarDiagram';
 
 const style = require('./VideoControls.scss');
 
-export default class VideoControls extends React.Component {
+interface IVideoControls {
+    brightness: number;
+    onUpdateBrightness: (value: number) => void;
+    contrast: number;
+    onUpdateContrast: (value: number) => void;
+    onClose: () => void;
+    analyser: AudioAnalyser;
 
-    static propTypes = {
-        brightness: PropTypes.number.isRequired,
-        onUpdateBrightness: PropTypes.func.isRequired,
-        contrast: PropTypes.number.isRequired,
-        onUpdateContrast: PropTypes.func.isRequired,
-        onClose: PropTypes.func.isRequired,
-        analyser: PropTypes.object.isRequired,
+    width: number;
+    height: number;
 
-        width: PropTypes.number.isRequired,
-        height: PropTypes.number.isRequired,
+    detector: boolean;
+    onDetector: () => void;
 
-        detector: PropTypes.bool.isRequired,
-        onDetector: PropTypes.func.isRequired,
+    showDelta: boolean;
+    skip: number;
+    frameForAnalise: number;
+    stepX: number;
+    stepY: number;
+    threshold: number;
 
-        showDelta: PropTypes.bool.isRequired,
-        skip: PropTypes.number.isRequired,
-        frameForAnalise: PropTypes.number.isRequired,
-        stepX: PropTypes.number.isRequired,
-        stepY: PropTypes.number.isRequired,
-        threshold: PropTypes.number.isRequired,
+    onUpdateShowDelta: (value: boolean) => void;
+    onUpdateSkip: (value: number) => void;
+    onUpdateFrameForAnalise: (value: number) => void;
+    onUpdateStepX: (value: number) => void;
+    onUpdateStepY: (value: number) => void;
+    onUpdateThreshold: (value: number) => void;
 
-        onUpdateShowDelta: PropTypes.func.isRequired,
-        onUpdateSkip: PropTypes.func.isRequired,
-        onUpdateFrameForAnalise: PropTypes.func.isRequired,
-        onUpdateStepX: PropTypes.func.isRequired,
-        onUpdateStepY: PropTypes.func.isRequired,
-        onUpdateThreshold: PropTypes.func.isRequired,
-    };
+    video: HTMLVideoElement;
+}
 
-    state = {
+export default class VideoControls extends React.Component<IVideoControls> {
+
+    private canvas: HTMLCanvasElement | null = null;
+    private canvasContext: CanvasRenderingContext2D | null = null;
+    private interval = 0;
+
+    public state = {
         show: true,
         light: 50,
     };
 
-    componentDidMount() {
-        this.canvasContext = this.canvas.getContext("2d");
-        this.interval = setInterval(() => {
+    public componentDidMount() {
+        if (!this.canvas) return;
+
+        this.canvasContext = this.canvas.getContext('2d');
+        this.interval = window.setInterval(() => {
+            if (!this.canvasContext) return;
+
             this.canvasContext.drawImage(this.props.video, 0, 0, 10, 10);
-            let data = this.canvasContext.getImageData(0, 0, 10, 10).data;
+            const data = this.canvasContext.getImageData(0, 0, 10, 10).data;
             let sum = 0;
 
             for (let x = 0; x < data.length; x += 4) {
-                //r+g+b без alpha
+                // r+g+b без alpha
                 sum += data[x] + data[x + 1] + data[x + 2];
             }
 
-            //сумма делится на количество при учете 3 из 4 пикселей
+            // сумма делится на количество при учете 3 из 4 пикселей
             this.setState({light: Math.floor(sum / (data.length / 4 * 3) / 255 * 100)});
         }, 1000);
     }
 
-    componentWillUnmount() {
-        clearInterval(this.interval)
+    public componentWillUnmount() {
+        clearInterval(this.interval);
     }
 
-    render() {
-        //Сложность анализа одного кадра для детектора движения
-        const complexity = Math.floor(this.props.width * this.props.height / this.props.stepX / this.props.stepY * (this.props.frameForAnalise - 1));
+    public render() {
+        // Сложность анализа одного кадра для детектора движения
+        const complexity = Math.floor(this.props.width * this.props.height /
+            this.props.stepX / this.props.stepY * (this.props.frameForAnalise - 1));
 
         return (
             <div className={style['normal']} onClick={e => e.stopPropagation()}>
@@ -148,7 +159,7 @@ export default class VideoControls extends React.Component {
                             <div className={style['text']}>
                                 Контрастность
                             </div>
-                            <input type='range' min={0.05} max={2} step={0.05}
+                            <input type="range" min={0.05} max={2} step={0.05}
                                    onChange={event => this.props.onUpdateContrast(+event.target.value)}
                                    value={this.props.contrast}
                             />
@@ -157,7 +168,7 @@ export default class VideoControls extends React.Component {
                             <div className={style['text']}>
                                 Яркость
                             </div>
-                            <input type='range' min={0.05} max={2} step={0.05}
+                            <input type="range" min={0.05} max={2} step={0.05}
                                    onChange={event => this.props.onUpdateBrightness(+event.target.value)}
                                    value={this.props.brightness}
                             />
