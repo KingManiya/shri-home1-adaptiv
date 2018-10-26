@@ -21,7 +21,7 @@ module.exports = (env, argv) => ({
             {
               test: /\.tsx|ts$/,
                 exclude: /node_modules/,
-              loader: "ts-loader",
+              use: [{ loader: 'ts-loader', options: { onlyCompileBundledFiles: true } }],
             },
             {
                 test: /\.scss$/,
