@@ -2,48 +2,49 @@
 /**
  * @type {AudioContext}
  */
-let context = null;
+let context: AudioContext;
 
 export default class AudioAnalyser {
 
-    //Количество полос
-    bandsCount = 16;
+    // Количество полос
+    public bandsCount = 16;
+    private source: MediaElementAudioSourceNode;
+    private readonly analyser: AnalyserNode;
+    private readonly bands: Uint8Array;
+    private onUpdate?: (bands: Uint8Array) => void;
+    private frame: number = 0;
 
-    constructor(mediaElement) {
+    constructor(mediaElement: HTMLVideoElement) {
         if (!context) {
-            let AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext;
+            // @ts-ignore
+            const AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext;
             context = new AudioContext();
         }
-
         this.source = context.createMediaElementSource(mediaElement);
 
-        this.createAnalyser();
-
-        this.connect();
-    }
-
-    createAnalyser() {
         this.analyser = context.createAnalyser();
         this.analyser.fftSize = this.bandsCount * 2;
         this.analyser.smoothingTimeConstant = 0.85;
 
         this.bands = new Uint8Array(this.analyser.frequencyBinCount);
+
+        this.connect();
     }
 
-    connect() {
-        //Связываем источник и анализатором
+    private connect() {
+        // Связываем источник и анализатором
         this.source.connect(this.analyser);
 
-        //Связываем анализатор с аудио выходом
+        // Связываем анализатор с аудио выходом
         this.analyser.connect(context.destination);
 
-        let javascriptNode = context.createScriptProcessor(2048, 1, 1);
+        const javascriptNode = context.createScriptProcessor(2048, 1, 1);
 
         this.analyser.connect(javascriptNode);
         javascriptNode.connect(context.destination);
     }
 
-    update() {
+    public update() {
         if (this.onUpdate) {
             this.frame = requestAnimationFrame(this.update.bind(this));
             this.analyser.getByteFrequencyData(this.bands);
@@ -51,13 +52,13 @@ export default class AudioAnalyser {
         }
     }
 
-    addListener(onUpdate) {
+    public addListener(onUpdate: (bands: Uint8Array) => void) {
         this.onUpdate = onUpdate;
         this.update();
     }
 
-    removeListener() {
-        this.onUpdate = null;
+    public removeListener() {
+        if (this.onUpdate) this.onUpdate = undefined;
         cancelAnimationFrame(this.frame);
     }
 }
