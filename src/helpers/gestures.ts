@@ -1,43 +1,56 @@
-let points = [];
+interface IPointEvent {
+    x: number;
+    y: number;
+    id: number;
+    startX: number;
+    startY: number;
+}
 
-function getXY(p1, p2) {
+interface IPoint {
+    x: number;
+    y: number;
+}
+
+const allPoints: { [propName: number]: IPointEvent } = {};
+
+function getXY(p1: IPoint, p2: IPoint) {
     return {
         x: p2.x - p1.x,
         y: p2.y - p1.y,
-    }
+    };
 }
 
-export function getPointStart(p) {
+export function getPointStart(p: IPointEvent): IPoint {
     return {
         x: p.startX,
         y: p.startY,
-    }
+    };
 }
 
-export function getPointEnd(p) {
+export function getPointEnd(p: IPointEvent): IPoint {
     return {
         x: p.x,
         y: p.y,
-    }
+    };
 }
 
-export function getDistance(p1, p2) {
-    let {x, y} = getXY(p1, p2);
+export function getDistance(p1: IPoint, p2: IPoint) {
+    const {x, y} = getXY(p1, p2);
 
     return Math.sqrt(x * x + y * y);
 }
 
-export function getAngle(p1, p2) {
-    let {x, y} = getXY(p1, p2);
+export function getAngle(p1: IPoint, p2: IPoint) {
+    const {x, y} = getXY(p1, p2);
 
     return Math.atan2(y, x) * 180 / Math.PI;
 }
 
-export function getRotation(start, end) {
+export function getRotation(start: IPoint[], end: IPoint[]): number {
     return getAngle(end[0], end[1]) + getAngle(start[0], start[1]);
 }
 
-export function getScale(start, end) {
+export function getScale(start: IPoint[], end: IPoint[]) {
     return getDistance(end[0], end[1]) / getDistance(start[0], start[1]);
 }
 
@@ -55,22 +68,22 @@ export function getScale(start, end) {
 //     }
 // }
 
-function getCenterEnd() {
-    let points = getPoints();
+function getCenterEnd(): IPoint {
+    const points = getPoints();
     if (points.length === 1) {
         return getPointEnd(points[0]);
     } else {
-        let point1 = getPointEnd(points[0]);
-        let point2 = getPointEnd(points[1]);
+        const point1 = getPointEnd(points[0]);
+        const point2 = getPointEnd(points[1]);
         return {
             x: (point1.x + point2.x) / 2,
             y: (point1.y + point2.y) / 2,
-        }
+        };
     }
 }
 
-export function registerPoint(event) {
-    let point = {
+export function registerPoint(event: PointerEvent) {
+    const point = {
         id: event.pointerId,
         startX: Math.round(event.x),
         startY: Math.round(event.y),
@@ -78,17 +91,17 @@ export function registerPoint(event) {
         y: Math.round(event.y),
     };
 
-    points[point.id] = point;
+    allPoints[point.id] = point;
     resetMulti();
 }
 
-export function deletePoint(event) {
-    delete points[event.pointerId];
+export function deletePoint(event: PointerEvent) {
+    delete allPoints[event.pointerId];
     resetMulti();
 }
 
-export function changePoint(event) {
-    let point = points[event.pointerId];
+export function changePoint(event: PointerEvent) {
+    const point = allPoints[event.pointerId];
     if (point) {
         point.x = Math.round(event.x);
         point.y = Math.round(event.y);
@@ -97,106 +110,119 @@ export function changePoint(event) {
 }
 
 export function getPoints() {
-    return Object.values(points);
+    return Object.values(allPoints);
 }
 
-let events = {
-    rotate: null,
-    scale: null,
-    scaleStart: null,
-    move: null,
+interface IEvents {
+    onRotate: ((speed: number) => void) | null;
+    onScale: ((speed: number) => void) | null;
+    onScaleStart: (() => void) | null;
+    onMove: ((x: number, y: number) => void) | null;
+}
+
+const events: IEvents = {
+    onRotate: null,
+    onScale: null,
+    onScaleStart: null,
+    onMove: null,
 };
 
-export function registerRotate(callback) {
-    events.rotate = callback;
+export function registerRotate(onRotate: (speed: number) => void) {
+    events.onRotate = onRotate;
 }
 
-export function registerScale(callback, callback2) {
-    events.scale = callback;
-    events.scaleStart = callback2;
+export function registerScale(onScale: (speed: number) => void, onScaleStart: () => void) {
+    events.onScale = onScale;
+    events.onScaleStart = onScaleStart;
 }
 
-export function registerMove(callback) {
-    events.move = callback;
+export function registerMove(onMove: (x: number, y: number) => void) {
+    events.onMove = onMove;
 }
-
 
 function onChange() {
-    let points = getPoints();
-    if (events.move) checkMove();
+    const points = getPoints();
+    if (events.onMove) {
+        checkMove(events.onMove);
+    }
 
-    //Если пальцев два
+    // Если пальцев два
     if (points.length === 2) {
-        let point1 = points[0];
-        let point2 = points[1];
-        let start = [getPointStart(point1), getPointStart(point2)];
-        let end = [getPointEnd(point1), getPointEnd(point2)];
+        const point1 = points[0];
+        const point2 = points[1];
+        const start = [getPointStart(point1), getPointStart(point2)];
+        const end = [getPointEnd(point1), getPointEnd(point2)];
 
-        if (events.rotate) checkRotation(start, end);
-        if (events.scale) checkScale(start, end);
+        if (events.onRotate) {
+            checkRotation(start, end, events.onRotate);
+        }
+        if (events.onScale && events.onScaleStart) {
+            checkScale(start, end, events.onScale, events.onScaleStart);
+        }
     }
 }
 
-//Для отключения дерганья, при повторном использовании
+// Для отключения дерганья, при повторном использовании
 function resetMulti() {
     rotationPrev = null;
     scalePrev = null;
     movePrev = null;
 }
 
-let rotationPrev = null;
+let rotationPrev: number | null = null;
 
-function checkRotation(start, end) {
-    let rotation = getRotation(start, end);
+function checkRotation(start: IPoint[], end: IPoint[], onRotate: ((speed: number) => void)) {
+    const rotation = getRotation(start, end);
 
     if (rotationPrev === null) {
         rotationPrev = rotation;
     }
 
-    //Угол изменения вращения от последнего учтеного состояния
-    let speed = rotation - rotationPrev;
+    // Угол изменения вращения от последнего учтеного состояния
+    const speed = rotation - rotationPrev;
 
-    //Положительньный угол изменения
-    let deg = Math.abs(speed);
+    // Положительньный угол изменения
+    const deg = Math.abs(speed);
 
-    //Изменение угла должно быть больше 1 градуса, для откидывания дрожания
+    // Изменение угла должно быть больше 1 градуса, для откидывания дрожания
     if (deg > 1) {
-        //Сохраняем последнее учтенное состояние
+        // Сохраняем последнее учтенное состояние
         rotationPrev = rotation;
 
-        //Удаляем переход градусов
-        //Вызываем событие вращения
-        if (deg <= 180) events.rotate(speed);
+        // Удаляем переход градусов
+        // Вызываем событие вращения
+        if (deg <= 180) {
+            onRotate(speed);
+        }
     }
 }
 
-let scalePrev = null;
+let scalePrev: number | null = null;
 
-function checkScale(start, end) {
-    let scale = getScale(start, end);
+function checkScale(start: IPoint[], end: IPoint[], onScale: (speed: number) => void, onScaleStart: () => void) {
+    const scale = getScale(start, end);
 
     if (scalePrev === null) {
         scalePrev = scale;
-        events.scaleStart();
+        onScaleStart();
     }
-    let speed = getScale(start, end);
+    const speed = getScale(start, end);
 
-
-    events.scale(speed);
+    onScale(speed);
 }
 
-let movePrev = null;
+let movePrev: IPoint | null = null;
 
-function checkMove() {
-    let end = getCenterEnd();
+function checkMove(onMove: (x: number, y: number) => void) {
+    const end = getCenterEnd();
 
     if (movePrev === null) {
         movePrev = end;
     }
 
-    let {x, y} = getXY(movePrev, end);
+    const {x, y} = getXY(movePrev, end);
 
     movePrev = end;
 
-    events.move(x, y);
+    onMove(x, y);
 }
