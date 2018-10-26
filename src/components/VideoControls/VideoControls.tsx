@@ -3,9 +3,10 @@
  */
 
 import React from 'react'
-import style from './VideoControls.scss'
 import PropTypes from 'prop-types'
 import BarDiagram from "../BarDiagram/BarDiagram";
+
+const style = require('./VideoControls.scss');
 
 export default class VideoControls extends React.Component {
 

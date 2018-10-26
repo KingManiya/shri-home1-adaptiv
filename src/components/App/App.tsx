@@ -1,14 +1,13 @@
 import React from 'react';
 import {hot} from 'react-hot-loader'
-
-const style = require('./App.scss');
-
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import {HashRouter as Router, Route} from "react-router-dom";
 // import PageEvents from "../PageEvents/PageEvents";
 // import PageCams from "../PageCams/PageCams";
 // import PageDev from "../PageDev/PageDev";
+
+const style = require('./App.scss');
 
 class App extends React.Component {
     render() {

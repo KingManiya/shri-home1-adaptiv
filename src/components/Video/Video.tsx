@@ -3,12 +3,13 @@
  */
 
 import React from 'react'
-import style from './Video.scss'
 import VideoPlayer from "../VideoPlayer/VideoPlayer";
 import PropTypes from 'prop-types'
 import AudioAnalyser from '../../helpers/AudioAnalyser'
 import VideoControls from "../VideoControls/VideoControls";
 import CanvasMoveDetector from "../CanvasMoveDetector/CanvasMoveDetector";
+
+const style = require('./Video.scss');
 
 export default class Video extends React.Component {
 

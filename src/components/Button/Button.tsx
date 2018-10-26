@@ -3,8 +3,9 @@
  */
 
 import React from 'react'
-import style from './Button.scss'
 import PropTypes from 'prop-types'
+
+const style = require('./Button.scss');
 
 export default class Button extends React.Component {
 

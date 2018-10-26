@@ -3,10 +3,11 @@
  */
 
 import React from 'react'
-import style from '../PageEvents/PageEvents.scss';
 import Content from "../Content/Content";
 // import camsData from "../../../data/cams";
 import Card from "../Card/Card";
+
+const style = require('../PageEvents/PageEvents.scss');
 
 export default class PageCams extends React.Component {
 

@@ -3,8 +3,9 @@
  */
 
 import React from 'react'
-import style from './CardInfo.scss'
 import PropTypes from "prop-types";
+
+const style = require('./CardInfo.scss');
 
 export default class CardInfo extends React.Component {
 

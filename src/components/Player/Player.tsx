@@ -3,7 +3,8 @@
  */
 
 import React from 'react'
-import style from './Player.scss'
+
+const style = require('./Player.scss');
 
 export default class Player extends React.Component {
     render() {

@@ -3,7 +3,8 @@
  */
 
 import React from 'react'
-import style from './Content.scss'
+
+const style = require('./Content.scss');
 
 export default class Content extends React.Component {
     render() {

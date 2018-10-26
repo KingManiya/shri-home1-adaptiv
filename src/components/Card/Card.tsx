@@ -3,7 +3,6 @@
  */
 
 import React from 'react'
-import style from './Card.scss'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import Player from "../Player/Player";
@@ -19,6 +18,8 @@ import {
 import CardTitle from "../CardTitle/CardTitle";
 import CardInfo from "../CardInfo/CardInfo";
 import Video from "../Video/Video";
+
+const style = require('./Card.scss');
 
 export default class Card extends React.Component {
     static propTypes = {

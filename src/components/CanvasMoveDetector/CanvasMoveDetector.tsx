@@ -3,9 +3,10 @@
  */
 
 import React from 'react'
-import style from './CanvasMoveDetector.scss'
 import MoveDetector from "../../helpers/MoveDetector";
 import PropTypes from 'prop-types'
+
+const style = require('./CanvasMoveDetector.scss');
 
 export default class CanvasMoveDetector extends React.Component {
     static propTypes = {

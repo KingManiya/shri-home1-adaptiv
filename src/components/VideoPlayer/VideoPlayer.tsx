@@ -3,9 +3,10 @@
  */
 
 import React from 'react'
-import style from './VideoPlayer.scss'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+
+const style = require('./VideoPlayer.scss');
 
 export default class VideoPlayer extends React.Component {
 
