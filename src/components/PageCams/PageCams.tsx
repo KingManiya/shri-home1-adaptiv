@@ -2,34 +2,34 @@
  * Created by user on 10.10.18.
  */
 
-import React from 'react'
-import Content from "../Content/Content";
+import React from 'react';
 // import camsData from "../../../data/cams";
-import Card from "../Card/Card";
+import Card from '../Card/Card';
+import Content from '../Content/Content';
 
 const style = require('../PageEvents/PageEvents.scss');
 
 export default class PageCams extends React.Component {
 
-    state = {
+    public state = {
         cams: [],
     };
 
-    componentDidMount() {
+    public componentDidMount() {
         window.fetch('http://localhost:8000/api/cams')
             .then(response => response.json())
             .then(eventsData => {
-                this.setState({cams: eventsData.cams})
-            })
+                this.setState({cams: eventsData.cams});
+            });
     }
 
-    render() {
+    public render() {
         const cams = this.state.cams.map((cam, index) => <Card {...cam} key={index}/>);
 
         return (
-            <Content title='Камеры' className={style['normal']}>
+            <Content title="Камеры" className={style['normal']}>
                 {cams.length ? cams : 'Загрузка...'}
             </Content>
-        )
+        );
     }
 }

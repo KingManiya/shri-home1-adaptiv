@@ -2,17 +2,17 @@
  * Created by user on 02.10.18.
  */
 
-import React from 'react'
+import React from 'react';
 
 const style = require('./Content.scss');
 
-interface ContentProps {
-    title: string,
-    className?: string,
+interface IContentProps {
+    title: string;
+    className?: string;
 }
 
-export default class Content extends React.Component<ContentProps> {
-    render() {
+export default class Content extends React.Component<IContentProps> {
+    public render() {
         return (
             <div className={style['normal']}>
                 <div className={style['header']}>
@@ -22,6 +22,6 @@ export default class Content extends React.Component<ContentProps> {
                     {this.props.children}
                 </div>
             </div>
-        )
+        );
     }
 }

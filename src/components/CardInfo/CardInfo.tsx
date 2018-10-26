@@ -24,6 +24,6 @@ export default class CardInfo extends React.Component<ICardInfo> {
                     {this.props.time}
                 </div>
             </div>
-        )
+        );
     }
 }
