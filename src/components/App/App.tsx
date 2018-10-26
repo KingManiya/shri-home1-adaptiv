@@ -5,7 +5,7 @@ import Footer from "../Footer/Footer";
 import {HashRouter as Router, Route} from "react-router-dom";
 // import PageEvents from "../PageEvents/PageEvents";
 // import PageCams from "../PageCams/PageCams";
-// import PageDev from "../PageDev/PageDev";
+import PageDev from "../PageDev/PageDev";
 
 const style = require('./App.scss');
 
@@ -16,8 +16,8 @@ class App extends React.Component {
                 <div className={style['normal']}>
                     <Header/>
                     {/*<Route path='/' component={PageEvents} exact/>*/}
-                    {/*<Route path='/info' component={PageDev}/>*/}
-                    {/*<Route path='/devices' component={PageDev}/>*/}
+                    <Route path='/info' component={PageDev}/>
+                    <Route path='/devices' component={PageDev}/>
                     {/*<Route path='/scenarios' component={PageDev}/>*/}
                     {/*<Route path='/cams' component={PageCams}/>*/}
                     <Footer/>

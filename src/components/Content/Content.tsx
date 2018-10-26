@@ -6,7 +6,12 @@ import React from 'react'
 
 const style = require('./Content.scss');
 
-export default class Content extends React.Component {
+interface ContentProps {
+    title: string,
+    className?: string,
+}
+
+export default class Content extends React.Component<ContentProps> {
     render() {
         return (
             <div className={style['normal']}>
