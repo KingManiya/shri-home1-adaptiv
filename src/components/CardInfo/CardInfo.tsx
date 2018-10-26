@@ -2,20 +2,19 @@
  * Created by user on 09.10.18.
  */
 
-import React from 'react'
-import PropTypes from "prop-types";
+import React from 'react';
 
 const style = require('./CardInfo.scss');
 
-export default class CardInfo extends React.Component {
+interface ICardInfo {
+    twoLine: boolean;
+    source: string;
+    time: string;
+}
 
-    static propTypes = {
-        twoLine: PropTypes.bool.isRequired,
-        source: PropTypes.string.isRequired,
-        time: PropTypes.string.isRequired,
-    };
+export default class CardInfo extends React.Component<ICardInfo> {
 
-    render() {
+    public render() {
         return (
             <div className={this.props.twoLine ? style['two'] : style['normal']}>
                 <div className={style['text']}>
