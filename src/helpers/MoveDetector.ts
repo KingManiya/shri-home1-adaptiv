@@ -1,17 +1,35 @@
 export default class MoveDetector {
 
-    dataSet = [];
-    currentData = [];
-    prevData = [];
+    private dataSet: Uint8ClampedArray[] = [];
+    private currentData?: Uint8ClampedArray;
+    private prevData?: Uint8ClampedArray;
 
-    change = [];
+    private change: number[][] = [];
 
-    step;
-    x;
-    y;
-    pixel;
+    private step = 0;
+    private x = 0;
+    private y = 0;
+    private pixel = 0;
 
-    constructor(width, height, frameForAnalise, stepX, stepY, threshold, onCheck) {
+    private left = 0;
+    private top = 0;
+    private right = 0;
+    private bottom = 0;
+
+    public width: number;
+    public height: number;
+    public frameForAnalise: number;
+    public stepX: number;
+    public stepY: number;
+    public threshold: number;
+    public onCheck: (change: number[][], rect: [number, number, number, number]) => void;
+
+    constructor(width: number, height: number,
+                frameForAnalise: number,
+                stepX: number, stepY: number,
+                threshold: number,
+                onCheck: (change: number[][], rect: [number, number, number, number]) => void,
+    ) {
         this.width = width;
         this.height = height;
         this.frameForAnalise = frameForAnalise;
@@ -21,8 +39,7 @@ export default class MoveDetector {
         this.onCheck = onCheck;
     }
 
-
-    addData(data) {
+    public addData(data: Uint8ClampedArray) {
         this.dataSet.push(data);
 
         this.left = 9999999;
@@ -32,18 +49,18 @@ export default class MoveDetector {
 
         this.change = [];
         for (this.step = this.frameForAnalise - 1; this.step--;) {
-            //Проверка нужного количества кадров
+            // Проверка нужного количества кадров
             this.check(this.step + 2);
         }
         this.onCheck(this.change, [this.left, this.top, this.right - this.left, this.bottom - this.top]);
 
-        //Очистка старых кадров
+        // Очистка старых кадров
         if (this.dataSet.length > this.frameForAnalise - 1) {
             this.dataSet.shift();
         }
     }
 
-    check(step) {
+    public check(step: number) {
         this.currentData = this.dataSet[this.dataSet.length - 1];
         this.prevData = this.dataSet[this.dataSet.length - step] || [];
 
