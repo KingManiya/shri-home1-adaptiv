@@ -3,7 +3,8 @@
  */
 
 import React from 'react'
-import style from './Header.scss'
+
+const style = require('./Header.scss');
 import {NavLink} from "react-router-dom";
 
 export default class Header extends React.Component {

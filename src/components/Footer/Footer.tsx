@@ -3,7 +3,8 @@
  */
 
 import React from 'react'
-import style from './Footer.scss'
+
+const style = require('./Footer.scss');
 
 export default class Footer extends React.Component {
     render() {
