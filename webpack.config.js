@@ -7,31 +7,21 @@ const SRC_PATH = path.join(__dirname, 'src');
 
 module.exports = (env, argv) => ({
     mode: 'development',
-    entry: './src/index.js',
+  entry: './src/index.ts',
     output: {
         path: PUBLIC_PATH,
         filename: 'index.js',
     },
     resolve: {
-        extensions: ['.js', '.jsx', '.json', '.scss'],
+      extensions: ['.ts', '.tsx', '.json', '.scss', ".js"],
     },
     module: {
 
         rules: [
-            // {
-            //     test: /\.html$/,
-            //     use: [{
-            //         loader: 'html-loader',
-            //         // options: {
-            //         //     interpolate: true,
-            //         //     minimize: true,
-            //         // },
-            //     }],
-            // },
             {
-                test: /\.jsx|js$/,
+              test: /\.tsx|ts$/,
                 exclude: /node_modules/,
-                loader: "babel-loader",
+              loader: "ts-loader",
             },
             {
                 test: /\.scss$/,

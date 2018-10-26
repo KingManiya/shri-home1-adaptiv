@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('Страница загружена');
 
     ReactDOM.render(
-        <App/>,
+        React.createElement(App),
         document.getElementById('root')
     )
 });
