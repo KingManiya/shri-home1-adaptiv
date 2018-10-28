@@ -3,6 +3,7 @@
  */
 
 import classNames from 'classnames';
+import Hls from 'hls.js';
 import React from 'react';
 
 const style = require('./VideoPlayer.scss');
@@ -47,13 +48,10 @@ export default class VideoPlayer extends React.Component<IVideoPlayer> {
 
     private initVideo() {
         if (!this.video) return;
-        // @ts-ignore
         if (Hls && Hls.isSupported()) {
-            // @ts-ignore
             const hls = new Hls();
             hls.loadSource(this.props.url);
             hls.attachMedia(this.video);
-            // @ts-ignore
             hls.on(Hls.Events.MANIFEST_PARSED, () => {
                 if (this.video) this.video.play();
             });
