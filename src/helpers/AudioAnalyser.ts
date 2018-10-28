@@ -1,7 +1,10 @@
-/////////
-/**
- * @type {AudioContext}
- */
+interface IWindow {
+    AudioContext: typeof AudioContext;
+    webkitAudioContext: typeof AudioContext;
+    mozAudioContext: typeof AudioContext;
+}
+
+declare const window: IWindow;
 let context: AudioContext;
 
 export default class AudioAnalyser {
@@ -16,7 +19,6 @@ export default class AudioAnalyser {
 
     constructor(mediaElement: HTMLVideoElement) {
         if (!context) {
-            // @ts-ignore
             const AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext;
             context = new AudioContext();
         }
