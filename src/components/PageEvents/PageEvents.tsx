@@ -3,27 +3,20 @@
  */
 
 import React from 'react';
+import ICard from '../../inerfaces/ICard';
 import Card from '../Card/Card';
 import Content from '../Content/Content';
 
 const style = require('./PageEvents.scss');
 
-export default class PageEvents extends React.Component {
+interface IPageEvents {
+    events: ICard[];
+}
 
-    public state = {
-        events: [],
-    };
-
-    public componentDidMount() {
-        window.fetch('http://localhost:8000/api/events')
-            .then(response => response.json())
-            .then(eventsData => {
-                this.setState({events: eventsData.events});
-            });
-    }
+export default class PageEvents extends React.Component<IPageEvents> {
 
     public render() {
-        const events = this.state.events.map((event, index) => <Card {...event} key={index}/>);
+        const events = this.props.events.map((event, index) => <Card {...event} key={index}/>);
 
         return (
             <Content title="Лента событий" className={style['normal']}>

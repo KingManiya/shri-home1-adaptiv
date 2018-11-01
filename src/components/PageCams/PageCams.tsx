@@ -3,28 +3,20 @@
  */
 
 import React from 'react';
-// import camsData from "../../../data/cams";
+import ICard from '../../inerfaces/ICard';
 import Card from '../Card/Card';
 import Content from '../Content/Content';
 
 const style = require('../PageEvents/PageEvents.scss');
 
-export default class PageCams extends React.Component {
+interface IPageCams {
+    cams: ICard[];
+}
 
-    public state = {
-        cams: [],
-    };
-
-    public componentDidMount() {
-        window.fetch('http://localhost:8000/api/cams')
-            .then(response => response.json())
-            .then(eventsData => {
-                this.setState({cams: eventsData.cams});
-            });
-    }
+export default class PageCams extends React.Component<IPageCams> {
 
     public render() {
-        const cams = this.state.cams.map((cam, index) => <Card {...cam} key={index}/>);
+        const cams = this.props.cams.map((cam, index) => <Card {...cam} key={index}/>);
 
         return (
             <Content title="Камеры" className={style['normal']}>
