@@ -12,6 +12,8 @@ import {
     registerRotate,
     registerScale,
 } from '../../helpers/gestures';
+import ICard from '../../inerfaces/ICard';
+import ICardData from '../../inerfaces/ICardData';
 import Button from '../Button/Button';
 import CardInfo from '../CardInfo/CardInfo';
 import CardTitle from '../CardTitle/CardTitle';
@@ -20,36 +22,7 @@ import Video from '../Video/Video';
 
 const style = require('./Card.scss');
 
-interface ICardProps {
-    size: string;
-    type: string;
-    title: string;
-    icon: string;
-    source: string;
-    time: string;
-    description?: string;
-    data?: IData;
-}
-
-interface ITrack {
-    name: string;
-    length: string;
-}
-
-interface IData {
-    type: string;
-    image?: string;
-    temperature?: number;
-    humidity: number;
-    buttons?: [];
-    track?: ITrack;
-    volume: number;
-    artist: string;
-    albumcover: string;
-    video: string;
-}
-
-export default class Card extends React.Component<ICardProps> {
+export default class Card extends React.Component<ICard> {
 
     public state = {
         zoom: 2,
@@ -175,7 +148,7 @@ export default class Card extends React.Component<ICardProps> {
         );
     }
 
-    private renderData(data: IData) {
+    private renderData(data: ICardData) {
 
         if (data.type === 'graph') {
             return this.renderStats();
