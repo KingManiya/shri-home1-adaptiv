@@ -167,7 +167,10 @@ export default class Card extends React.Component<ICard> {
 
             />;
         } else if (data.video) {
-            return <Video url={data.video}/>;
+            return <Video url={data.video}
+                          brightness={data.brightness}
+                          contrast={data.contrast}
+            />;
         }
 
     }
