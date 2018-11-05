@@ -2,11 +2,20 @@
  * Created by user on 04.10.18.
  */
 
-import React from 'react'
-import style from './Player.scss'
+import React from 'react';
 
-export default class Player extends React.Component {
-    render() {
+const style = require('./Player.scss');
+
+interface IPlayer {
+    albumcover: string;
+    artist: string;
+    name: string;
+    length: string;
+    volume: number;
+}
+
+export default class Player extends React.Component<IPlayer> {
+    public render() {
         return (
             <div className={style['normal']}>
                 <div className={style['line_top']}>
@@ -36,6 +45,6 @@ export default class Player extends React.Component {
                     </div>
                 </div>
             </div>
-        )
+        );
     }
 }

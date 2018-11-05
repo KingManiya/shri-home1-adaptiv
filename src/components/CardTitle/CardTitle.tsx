@@ -2,19 +2,19 @@
  * Created by user on 09.10.18.
  */
 
-import React from 'react'
-import style from './CardTitle.scss'
-import PropTypes from "prop-types";
+import React from 'react';
 
-export default class CardTitle extends React.Component {
+const style = require('./CardTitle.scss');
 
-    static propTypes = {
-        critical: PropTypes.bool.isRequired,
-        icon: PropTypes.string.isRequired,
-        title: PropTypes.string.isRequired,
-    };
+interface ICardTitle {
+    critical: boolean;
+    icon: string;
+    title: string;
+}
 
-    render() {
+export default class CardTitle extends React.Component<ICardTitle> {
+
+    public render() {
         return (
             <div className={this.props.critical ? style['critical'] : style['normal']}>
                 <img src={`img/icons/${this.props.icon}.svg`} alt="" className={style['icon']}/>
@@ -22,6 +22,6 @@ export default class CardTitle extends React.Component {
                     {this.props.title}
                 </div>
             </div>
-        )
+        );
     }
 }

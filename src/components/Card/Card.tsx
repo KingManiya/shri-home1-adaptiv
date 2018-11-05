@@ -2,39 +2,65 @@
  * Created by user on 02.10.18.
  */
 
-import React from 'react'
-import style from './Card.scss'
-import PropTypes from 'prop-types'
-import classNames from 'classnames'
-import Player from "../Player/Player";
-import Button from "../Button/Button";
+import classNames from 'classnames';
+import React from 'react';
 import {
     changePoint,
     deletePoint,
     registerMove,
     registerPoint,
     registerRotate,
-    registerScale
-} from "../../helpers/gestures";
-import CardTitle from "../CardTitle/CardTitle";
-import CardInfo from "../CardInfo/CardInfo";
-import Video from "../Video/Video";
+    registerScale,
+} from '../../helpers/gestures';
+import Button from '../Button/Button';
+import CardInfo from '../CardInfo/CardInfo';
+import CardTitle from '../CardTitle/CardTitle';
+import Player from '../Player/Player';
+import Video from '../Video/Video';
 
-export default class Card extends React.Component {
-    static propTypes = {
-        // small: PropTypes.bool,
-        // medium: PropTypes.bool,
-        // large: PropTypes.bool,
-    };
+const style = require('./Card.scss');
 
-    state = {
+interface ICardProps {
+    size: string;
+    type: string;
+    title: string;
+    icon: string;
+    source: string;
+    time: string;
+    description?: string;
+    data?: IData;
+}
+
+interface ITrack {
+    name: string;
+    length: string;
+}
+
+interface IData {
+    type: string;
+    image?: string;
+    temperature?: number;
+    humidity: number;
+    buttons?: [];
+    track?: ITrack;
+    volume: number;
+    artist: string;
+    albumcover: string;
+    video: string;
+}
+
+export default class Card extends React.Component<ICardProps> {
+
+    public state = {
         zoom: 2,
         positionPercentX: 50,
         positionPercentY: 50,
         contrast: 100,
     };
 
-    componentDidMount() {
+    private bitmap: HTMLImageElement | null = null;
+
+    public componentDidMount() {
         if (this.bitmap) {
             this.bitmap.addEventListener('pointermove', changePoint);
             this.bitmap.addEventListener('pointerdown', registerPoint);
@@ -47,7 +73,9 @@ export default class Card extends React.Component {
             let tempZoom = 2;
             let zoom = 2;
 
-            registerRotate(speed => {
+            registerRotate((speed: number) => {
+                if (!this.bitmap) return;
+
                 contrast += speed;
                 if (contrast < 0) contrast = 0;
                 if (contrast > 300) contrast = 300;
@@ -55,8 +83,9 @@ export default class Card extends React.Component {
                 this.setState({contrast});
             });
 
+            registerMove((speedX: number, speedY: number) => {
+                if (!this.bitmap) return;
 
-            registerMove((speedX, speedY) => {
                 imageX += speedX / zoom;
                 imageY += speedY / zoom;
 
@@ -68,25 +97,24 @@ export default class Card extends React.Component {
                 * 4-240 (320*3/4)
                 * */
 
-                //Установка ограничения по тасканию картинки
-                let width = this.bitmap.width;
-                let height = this.bitmap.height;
-                let x = width / 2 * (zoom - 1) / zoom;
-                let y = height / 2 * (zoom - 1) / zoom;
+                // Установка ограничения по тасканию картинки
+                const width = this.bitmap.width;
+                const height = this.bitmap.height;
+                const x = width / 2 * (zoom - 1) / zoom;
+                const y = height / 2 * (zoom - 1) / zoom;
                 if (imageX >= x) imageX = x;
                 if (imageY >= y) imageY = y;
                 if (imageX <= -x) imageX = -x;
                 if (imageY <= -y) imageY = -y;
 
-
                 this.changeCamZoom(zoom, imageX, imageY);
-                let positionPercentX = x ? (x - imageX) / (x * 2) * 100 : 100;
-                let positionPercentY = y ? (y - imageY) / (y * 2) * 100 : 100;
+                const positionPercentX = x ? (x - imageX) / (x * 2) * 100 : 100;
+                const positionPercentY = y ? (y - imageY) / (y * 2) * 100 : 100;
 
                 this.setState({positionPercentX, positionPercentY, zoom});
             });
 
-            registerScale(speed => {
+            registerScale((speed: number) => {
                 zoom = tempZoom * speed;
                 if (zoom < 1) zoom = 1;
                 if (zoom > 10) zoom = 10;
@@ -95,18 +123,19 @@ export default class Card extends React.Component {
         }
     }
 
-    changeCamZoom(zoom, positionX, positionY) {
-        this.bitmap.style.transform = `scale(${zoom}) translateX(${positionX}px) translateY(${positionY}px)`;
+    private changeCamZoom(zoom: number, positionX: number, positionY: number) {
+        if (this.bitmap) {
+            this.bitmap.style.transform = `scale(${zoom}) translateX(${positionX}px) translateY(${positionY}px)`;
+        }
     }
 
-    render() {
-        let className = classNames(style['normal'], {
+    public render() {
+        const className = classNames(style['normal'], {
             [style['small']]: this.props.size === 's',
             [style['medium']]: this.props.size === 'm',
             [style['large']]: this.props.size === 'l',
             [style['critical']]: this.props.type === 'critical',
         });
-
 
         return (
             <div className={className}>
@@ -115,10 +144,10 @@ export default class Card extends React.Component {
                 {this.renderMain()}
                 {this.renderContent()}
             </div>
-        )
+        );
     }
 
-    renderMain() {
+    private renderMain() {
         const critical = this.props.type === 'critical';
 
         return (
@@ -126,10 +155,10 @@ export default class Card extends React.Component {
                 <CardTitle critical={critical} title={this.props.title} icon={this.props.icon}/>
                 <CardInfo twoLine={this.props.size === 's'} source={this.props.source} time={this.props.time}/>
             </div>
-        )
+        );
     }
 
-    renderContent() {
+    private renderContent() {
         return (
             <div className={style['content']}>
                 {!this.props.description ? null :
@@ -143,10 +172,10 @@ export default class Card extends React.Component {
                     </div>
                 }
             </div>
-        )
+        );
     }
 
-    renderData(data) {
+    private renderData(data: IData) {
 
         if (data.type === 'graph') {
             return this.renderStats();
@@ -163,26 +192,25 @@ export default class Card extends React.Component {
                            length={data.track.length}
                            volume={data.volume}
 
-            />
+            />;
         } else if (data.video) {
             return <Video url={data.video}/>;
         }
 
-
     }
 
-    renderStats() {
-        return <img src='img/data/richdata.svg' alt='stats' className={style['stats']}/>;
+    private renderStats() {
+        return <img src="img/data/richdata.svg" alt="stats" className={style['stats']}/>;
     }
 
-    renderCam() {
+    private renderCam() {
         return (
             <div className={style['']}>
                 <div className={style['stats']}>
-                    <img srcSet='img/data/bitmap1.png 790w,
+                    <img srcSet="img/data/bitmap1.png 790w,
                              img/data/bitmap2.png 1140w,
-                             img/data/bitmap3.png 1490w'
-                         alt='cam'
+                             img/data/bitmap3.png 1490w"
+                         alt="cam"
                          className={style['cam']}
                          ref={bitmap => this.bitmap = bitmap}
                          onMouseDown={(e) => e.preventDefault()}
@@ -194,7 +222,7 @@ export default class Card extends React.Component {
         );
     }
 
-    renderTouch() {
+    private renderTouch() {
         if (!('ontouchstart' in window)) return null;
 
         return [
@@ -209,22 +237,22 @@ export default class Card extends React.Component {
             </div>,
             <div className={style['temp_text']}>
                 {`Положение по вертикале: ${this.state.positionPercentY.toFixed(0)}%`}
-            </div>
+            </div>,
 
-        ]
+        ];
     }
 
-    renderButtons(buttons) {
+    private renderButtons(buttons: []) {
         return (
             <div className={style['buttons']}>
                 {buttons.map((text, index) =>
-                    <Button active={!index} key={index} width={152} text={text}/>
+                    <Button active={!index} key={index} width={152} text={text}/>,
                 )}
             </div>
-        )
+        );
     }
 
-    renderThermal(temperature, humidity) {
+    private renderThermal(temperature: number, humidity: number) {
         return (
             <div className={style['thermal']}>
                 <div className={style['temp_line']}>
@@ -245,6 +273,6 @@ export default class Card extends React.Component {
                 </div>
 
             </div>
-        )
+        );
     }
 }

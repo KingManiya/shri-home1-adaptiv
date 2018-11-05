@@ -1,8 +1,8 @@
-const express = require('express');
+import express from 'express';
 const app = express();
-const registerRoutes = require('./routes');
-const bodyParser = require('body-parser');
-const cors = require('cors');
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import registerRoutes from './routes';
 
 app.use(cors());
 
@@ -11,6 +11,6 @@ app.use(bodyParser.json());
 registerRoutes(app);
 
 const port = process.env.PORT || 8000;
-app.listen(port, function () {
+app.listen(port, () => {
     console.log('Listening on Port ' + port);
 });

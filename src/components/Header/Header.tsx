@@ -2,19 +2,20 @@
  * Created by user on 02.10.18.
  */
 
-import React from 'react'
-import style from './Header.scss'
-import {NavLink} from "react-router-dom";
+import React from 'react';
+import {NavLink} from 'react-router-dom';
+
+const style = require('./Header.scss');
 
 export default class Header extends React.Component {
-    state = {
+    public state = {
         menuActive: false,
     };
 
-    render() {
+    public render() {
         return (
             <div className={this.state.menuActive ? style['menu_active'] : style['normal']}>
-                <a className={style['logo']} href='#'/>
+                <a className={style['logo']} href="#"/>
                 <div className={style['links']}>
                     <NavLink to="/" className={style['link']} exact
                              activeClassName={style['link_active']}
@@ -46,6 +47,6 @@ export default class Header extends React.Component {
                      onClick={() => this.setState({menuActive: !this.state.menuActive})}
                 />
             </div>
-        )
+        );
     }
 }

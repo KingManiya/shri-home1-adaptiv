@@ -2,19 +2,19 @@
  * Created by user on 09.10.18.
  */
 
-import React from 'react'
-import style from './CardInfo.scss'
-import PropTypes from "prop-types";
+import React from 'react';
 
-export default class CardInfo extends React.Component {
+const style = require('./CardInfo.scss');
 
-    static propTypes = {
-        twoLine: PropTypes.bool.isRequired,
-        source: PropTypes.string.isRequired,
-        time: PropTypes.string.isRequired,
-    };
+interface ICardInfo {
+    twoLine: boolean;
+    source: string;
+    time: string;
+}
 
-    render() {
+export default class CardInfo extends React.Component<ICardInfo> {
+
+    public render() {
         return (
             <div className={this.props.twoLine ? style['two'] : style['normal']}>
                 <div className={style['text']}>
@@ -24,6 +24,6 @@ export default class CardInfo extends React.Component {
                     {this.props.time}
                 </div>
             </div>
-        )
+        );
     }
 }

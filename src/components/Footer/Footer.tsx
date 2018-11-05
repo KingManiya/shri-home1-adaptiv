@@ -2,11 +2,12 @@
  * Created by user on 02.10.18.
  */
 
-import React from 'react'
-import style from './Footer.scss'
+import React from 'react';
+
+const style = require('./Footer.scss');
 
 export default class Footer extends React.Component {
-    render() {
+    public render() {
         return (
             <div className={style['normal']}>
                 <a href="#" className={style['link']}>
@@ -28,6 +29,6 @@ export default class Footer extends React.Component {
                     © 2001–2018 ООО «Яндекс»
                 </div>
             </div>
-        )
+        );
     }
 }
