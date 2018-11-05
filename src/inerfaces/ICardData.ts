@@ -1,6 +1,7 @@
 import ITrack from './ITrack';
+import {IVideoSettings} from './IVideoSettings';
 
-export default interface ICardData {
+export default interface ICardData extends IVideoSettings {
     type: string;
     image?: string;
     temperature?: number;
@@ -10,5 +11,4 @@ export default interface ICardData {
     volume: number;
     artist: string;
     albumcover: string;
-    video: string;
 }
