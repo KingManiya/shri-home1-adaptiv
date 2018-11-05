@@ -3,6 +3,7 @@
  */
 
 import React from 'react';
+import {changeBrightness, changeContrast} from '../../actions/actions';
 import AudioAnalyser from '../../helpers/AudioAnalyser';
 import CanvasMoveDetector from '../CanvasMoveDetector/CanvasMoveDetector';
 import VideoControls from '../VideoControls/VideoControls';
@@ -12,13 +13,13 @@ const style = require('./Video.scss');
 
 interface IVideoProps {
     url: string;
+    brightness: number;
+    contrast: number;
 }
 
 interface IVideoState {
     fullscreen: boolean;
     relative: boolean;
-    contrast: number;
-    brightness: number;
 
     detector: boolean;
     showDelta: boolean;
@@ -41,8 +42,6 @@ export default class Video extends React.Component<IVideoProps, IVideoState> {
     public state: IVideoState = {
         fullscreen: false,
         relative: false,
-        contrast: 1,
-        brightness: 1,
 
         detector: false, // детектор движения
 
@@ -71,8 +70,8 @@ export default class Video extends React.Component<IVideoProps, IVideoState> {
             >
                 {this.state.fullscreen ? <div className={style['background']}/> : null}
                 {!this.state.detector || !this.video ? null :
-                    <CanvasMoveDetector contrast={this.state.contrast}
-                                        brightness={this.state.brightness}
+                    <CanvasMoveDetector contrast={this.props.contrast}
+                                        brightness={this.props.brightness}
 
                                         video={this.video}
                                         width={this.state.width}
@@ -90,8 +89,8 @@ export default class Video extends React.Component<IVideoProps, IVideoState> {
                 }
                 <VideoPlayer url={this.props.url}
                              element={video => this.video = video}
-                             contrast={this.state.contrast}
-                             brightness={this.state.brightness}
+                             contrast={this.props.contrast}
+                             brightness={this.props.brightness}
                              muted={!this.state.fullscreen}
                              className={this.state.detector ? style['hide'] : style['video']}
                 />
@@ -104,10 +103,10 @@ export default class Video extends React.Component<IVideoProps, IVideoState> {
         if (!this.state.analyser || !this.video) return null;
 
         return (
-            <VideoControls brightness={this.state.brightness}
-                           onUpdateBrightness={brightness => this.setState({brightness})}
-                           contrast={this.state.contrast}
-                           onUpdateContrast={contrast => this.setState({contrast})}
+            <VideoControls brightness={this.props.brightness}
+                           onUpdateBrightness={brightness => changeBrightness(brightness, this.props.url)}
+                           contrast={this.props.contrast}
+                           onUpdateContrast={contrast => changeContrast(contrast, this.props.url)}
                            onClose={this.onClickHandler.bind(this)}
                            analyser={this.state.analyser}
                            video={this.video}
