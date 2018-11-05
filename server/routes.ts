@@ -1,6 +1,8 @@
 import express from 'express';
 import {getDataCamsFromFile, getEvents} from './helpers/getData';
 import uptime from './helpers/uptime';
+import {getSettings, setSettings} from './helpers/videoSettings';
+import {ICam} from './types/ICam';
 
 export default function registerRoutes(app: express.Application) {
 
@@ -10,7 +12,21 @@ export default function registerRoutes(app: express.Application) {
     app.post('/api/events', parseEvents);
 
     app.get('/api/cams', (req: express.Request, res: express.Response) => {
-        getDataCamsFromFile().then(cams => res.json(cams));
+        getDataCamsFromFile().then(camsData => {
+            const cams: ICam[] = camsData.cams;
+            cams.forEach(cam => {
+                const settings = getSettings(cam.data.video);
+                cam.data = {...cam.data, ...settings};
+            });
+            res.json(cams);
+        });
+    });
+
+    app.post('/api/cams/settings', (req: express.Request, res: express.Response) => {
+        const url: string = req.body.url;
+        const settings = req.body.settings;
+        setSettings(url, settings);
+        res.sendStatus(200);
     });
 
     app.use((req: express.Request, res: express.Response) => {

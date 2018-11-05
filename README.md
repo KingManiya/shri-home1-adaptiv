@@ -30,6 +30,7 @@ npm start
 * src\index.js - точка входа в приложение (рендер реакта в дом дерево).
 * data\events.json - данные из ТЗ по адаптивной верстке
 * data\cams.json - данные для камер по мультимедия
+* server - исходный код сервера
 
 Корневой компонент - App.
 
@@ -101,6 +102,7 @@ npm start
 
 Реализованы post запросы:
 * /api/events (параметры в json формате)
+* /api/cams/settings (параметры в json формате)
 
 /api/events поддерживает параметры: type (разделить двоеточие), offset, limit
 
@@ -138,6 +140,15 @@ npm start
     * GET http://localhost:8000/api/cams
 
     * GET http://localhost:8000/api/asdf - ошибка 404
+
+    * POST http://localhost:8000/api/cams/settings
+
+    Content-Type: application/json
+
+    {
+      "url": "https://shri-smart-house.herokuapp.com/cat%2Fmaster.m3u8",
+      "settings": {"contrast": 0.35}
+    }
 
 ## Типизация
 Для запуска проекта подходят команды описанные в самом начале readme.
