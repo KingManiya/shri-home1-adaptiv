@@ -73,6 +73,7 @@
     "react-dom": "^16.6.0",
     "react-hot-loader": "^4.3.11",
     "react-router-dom": "^4.3.1",
+    "shrilux": "git+https://github.com/KingManiya/shrilux.git",
     "ts-node": "^7.0.1"
   }
 }
