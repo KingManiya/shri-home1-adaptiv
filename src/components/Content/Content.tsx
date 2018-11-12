@@ -2,9 +2,13 @@
  * Created by user on 02.10.18.
  */
 
+import {cn} from '@bem-react/classname';
 import React from 'react';
 
-const style = require('./Content.scss');
+import './Content.scss';
+
+const content = cn('Content');
+const contentHeader = content('Header');
 
 interface IContentProps {
     title: string;
@@ -14,8 +18,8 @@ interface IContentProps {
 export default class Content extends React.Component<IContentProps> {
     public render() {
         return (
-            <div className={style['normal']}>
-                <div className={style['header']}>
+            <div className={content()}>
+                <div className={contentHeader}>
                     {this.props.title}
                 </div>
                 <div className={this.props.className}>

@@ -1,12 +1,12 @@
 @import "../../css/constants";
 
-.normal {
+.Content {
   flex-grow: 1;
   margin: 0 auto;
   padding: 0 40px 80px;
 }
 
-.header {
+.Content-Header {
   font-weight: bold;
   font-size: 36px;
   color: #333;
@@ -14,13 +14,13 @@
 }
 
 @media ($media-mobile-to) {
-  .normal {
+  .Content {
     margin-top: 70px;
     grid-gap: 16px;
     padding-top: 20px !important;
   }
 
-  .header {
+  .Content-Header {
     line-height: initial;
     font-size: 24px;
     padding-bottom: 20px;
@@ -29,7 +29,7 @@
 
 /* 4 один столбик узкие отступы, динамическая ширина */
 @media ($media-tablet-to) {
-  .normal {
+  .Content {
     padding: 0 20px 20px;
   }
 }

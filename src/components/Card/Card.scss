@@ -1,19 +1,19 @@
 @import "../../css/constants";
 
-.small {
+.Card_small {
   grid-column: span 2;
 }
 
-.medium {
+.Card_medium {
   grid-column: span 3;
 }
 
-.large {
+.Card_large {
   grid-column: span 4;
   grid-row: span 3;
 }
 
-.normal {
+.Card {
   background-color: #fafafa;
   border-radius: $border-radius;
   padding: $desktop-margin;
@@ -23,16 +23,16 @@
   transition: background-color 0.3s, box-shadow 0.3s;
 }
 
-.normal:hover {
+.Card:hover {
   background-color: #f3f3f3;
   box-shadow: 0 2px 6px 0 rgba(197, 186, 186, 0.5);
 }
 
-.normal:hover .action {
+.Card:hover .Card-Action {
   opacity: 1;
 }
 
-.action {
+.Card-Action {
   position: absolute;
   opacity: 0;
   transition: opacity 0.3s;
@@ -47,26 +47,24 @@
   z-index: 1; /* для перебития transform в данных пылесоса */
 }
 
-.critical .cross {
+.Card_critical .Card-Action_cross {
   background-image: url("../Card/img/cross-white.svg");
   background-color: #d44c3a;
 }
 
-.cross {
-  composes: action;
+.Card-Action_cross {
   background-image: url("../Card/img/cross.svg");
   top: 15px;
 }
 
-.next {
-  composes: action;
+.Card-Action_next {
   background-image: url("../Card/img/next.svg");
   bottom: 15px;
 
   /* box-shadow: #d8d8d8 -2px -2px 20px; */
 }
 
-.critical .header {
+.Card_critical .Card-Header {
   background-color: #db5341;
   margin: (-$desktop-margin) (-$desktop-margin) 0 (-$desktop-margin);
   padding: $desktop-margin $desktop-margin $desktop-margin * 2 $desktop-margin;
@@ -75,161 +73,96 @@
   transition: background-color 0.3s;
 }
 
-.critical:hover .header {
+.Card_critical:hover .Card-Header {
   background-color: #d44c3a;
 }
 
-.critical .header div {
+.Card_critical .Card-Header div {
   color: #fff;
 }
 
-.critical .description_big,
-.critical .description_normal {
+.Card_critical .Card-Description {
   margin-top: initial;
 }
 
-.header {
+.Card-Header {
 }
 
-.content {
+.Card-Content {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
 }
 
-.critical .content {
+.Card_critical .Card-Content {
   background: inherit;
   margin: -$desktop-margin;
   padding: $desktop-margin;
   border-radius: $border-radius;
 }
 
-.description {
+.Card-Description {
   margin-top: 25px;
-}
-
-.description_normal {
-  composes: description;
   font-size: 20px;
 }
 
-.description_big {
-  composes: description;
+.Card-Description_big {
   font-size: 24px;
   color: #333;
 }
 
-.data {
+.Card-Data {
   margin-top: auto;
   padding-top: 25px;
 }
 
-/* Данные кнопок */
-.buttons {
-  margin-top: auto;
-  display: flex;
-}
-
-/* Данные камеры */
-.stats {
-  border-radius: $border-radius;
-  width: 100%;
-  overflow: hidden;
-}
-
-.cam {
-  width: 100%;
-
-  transform: scale(2);
-  touch-action: none;
-  user-select: none;
-}
-
-/* Данные температуры */
-.thermal {
-  margin-top: auto;
-  display: flex;
-}
-
-.temp_line {
-  display: flex;
-  margin-right: 52px;
-}
-
-.temp_text {
-  font-size: 18px;
-}
-
-.temp_value {
-  composes: temp_text;
-  font-weight: bold;
-  margin-left: 2px;
-}
 
 @media ($media-mobile-to) {
   /* Действия прибиываем к краю */
-  .action {
+  .Card-Action {
     right: 10px;
   }
 
-  .cross {
+  .Card-Action_cross {
     top: 10px;
   }
 
-  .next {
+  .Card-Action_next {
     bottom: 10px;
   }
 
   /* Уменьшаем отступы у карточки */
-  .normal {
+  .Card {
     padding: $mobile-margin;
   }
 
-  .critical .header {
+  .Card_critical .Card-Header {
     margin: (-$mobile-margin) (-$mobile-margin) 0 (-$mobile-margin);
     padding: $mobile-margin $mobile-margin $mobile-margin * 2 $mobile-margin;
   }
 
-  .critical .content {
+  .Card_critical .Card-Content {
     margin: -$mobile-margin;
     padding: $mobile-margin;
   }
 
-  .description {
+  .Card-Description {
     font-size: 18px;
     color: #333;
-  }
-
-  /* Данные кнопок: кнопки по краям карточки */
-  .buttons {
-    justify-content: space-between;
-  }
-
-  /* Данные температуры: по краям карточки */
-  .thermal {
-    justify-content: space-between;
-  }
-
-  .temp_line {
-    margin-right: initial;
-  }
-
-  .temp_text {
-    font-size: 14px;
   }
 }
 
 /* 4 один столбик узкие отступы, динамическая ширина */
 @media ($media-desktop1-to) {
-  .small,
-  .medium {
+  .Card_small,
+  .Card_medium {
     grid-column: span 4;
   }
 }
 
 /* 8 широкоформатный режим */
 @media ($media-desktop3-at) {
-  .medium {
+  .Card_medium {
     grid-column: span 4;
   }
 }

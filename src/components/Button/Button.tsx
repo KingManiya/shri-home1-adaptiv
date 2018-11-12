@@ -2,9 +2,12 @@
  * Created by user on 04.10.18.
  */
 
+import {cn} from '@bem-react/classname';
 import React from 'react';
 
-const style = require('./Button.scss');
+import './Button.scss';
+
+const button = cn('Button');
 
 interface IButton {
     text: string;
@@ -18,7 +21,7 @@ export default class Button extends React.Component<IButton> {
 
     public render() {
         return (
-            <div className={this.props.active ? style['active'] : style['normal']}
+            <div className={button({active: this.props.active})}
                  onClick={this.props.onClick}
                  style={{
                      width: this.props.width,

@@ -1,6 +1,6 @@
 @import "../../css/constants";
 
-.normal {
+.Button {
   border-radius: 8px;
   background-color: #e5e5e5;
   line-height: 54px;
@@ -13,17 +13,16 @@
   box-sizing: border-box;
 }
 
-.active {
-  composes: normal;
+.Button_active {
   background-color: #ffd93e;
 }
 
-.normal:not(:last-child) {
+.Button:not(:last-child) {
   margin-right: 18px;
 }
 
 @media ($media-tablet-to) {
-  .normal {
+  .Button {
     line-height: 44px;
   }
 }

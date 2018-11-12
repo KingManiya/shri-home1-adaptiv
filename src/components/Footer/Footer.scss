@@ -1,6 +1,6 @@
 @import "../../css/constants";
 
-.normal {
+.Footer {
   padding: 0 40px;
   height: 64px;
   border-top: 1px solid #f0f0f0;
@@ -9,7 +9,7 @@
   flex-shrink: 0;
 }
 
-.link {
+.Footer-Link {
   display: block;
   text-decoration: none;
   font-size: 12px;
@@ -17,19 +17,19 @@
   margin-left: 15px;
 }
 
-.link:last-child {
+.Footer-Link:last-child {
   margin-left: auto;
 }
 
 @media ($media-tablet-to) {
   /* Выстраиваем в столбик */
-  .normal {
+  .Footer {
     flex-direction: column;
     padding: 0 20px 6px;
     height: initial;
   }
 
-  .link {
+  .Footer-Link {
     margin-top: 6px;
     margin-left: initial !important;
   }

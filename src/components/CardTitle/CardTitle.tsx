@@ -2,9 +2,12 @@
  * Created by user on 09.10.18.
  */
 
+import {cn} from '@bem-react/classname';
 import React from 'react';
 
-const style = require('./CardTitle.scss');
+import './CardTitle.scss';
+
+const cardTitle = cn('CardTitle');
 
 interface ICardTitle {
     critical: boolean;
@@ -16,9 +19,9 @@ export default class CardTitle extends React.Component<ICardTitle> {
 
     public render() {
         return (
-            <div className={this.props.critical ? style['critical'] : style['normal']}>
-                <img src={`img/icons/${this.props.icon}.svg`} alt="" className={style['icon']}/>
-                <div className={style['title']}>
+            <div className={cardTitle({critical: this.props.critical})}>
+                <img src={`img/icons/${this.props.icon}.svg`} alt="" className={cardTitle('Icon')}/>
+                <div className={cardTitle('Text')}>
                     {this.props.title}
                 </div>
             </div>

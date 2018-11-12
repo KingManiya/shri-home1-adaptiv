@@ -1,4 +1,4 @@
-.normal {
+.VideoControls {
   padding: 5px;
   border-radius: 5px;
   position: fixed;
@@ -13,18 +13,18 @@
   font-size: 12px;
 }
 
-.line {
+.VideoControls-Line {
   display: flex;
   justify-content: space-between;
 }
 
-.text {
+.VideoControls-Text {
   color: #fff;
   user-select: none;
   font-size: 12px;
 }
 
-.button {
+.VideoControls-Button {
   margin-top: 2px;
   padding: 5px 10px;
   border-radius: 5px;

@@ -2,6 +2,7 @@
  * Created by user on 12.10.18.
  */
 
+import {cn} from '@bem-react/classname';
 import React from 'react';
 import {changeBrightness, changeContrast} from '../../actions/actions';
 import AudioAnalyser from '../../helpers/AudioAnalyser';
@@ -9,7 +10,9 @@ import CanvasMoveDetector from '../CanvasMoveDetector/CanvasMoveDetector';
 import VideoControls from '../VideoControls/VideoControls';
 import VideoPlayer from '../VideoPlayer/VideoPlayer';
 
-const style = require('./Video.scss');
+import './Video.scss';
+
+const video = cn('Video');
 
 interface IVideoProps {
     url: string;
@@ -65,10 +68,10 @@ export default class Video extends React.Component<IVideoProps, IVideoState> {
 
     public render() {
         return (
-            <div className={this.state.relative ? style['relative'] : null}
+            <div className={this.state.relative ? video('Relative') : undefined}
                  onClick={this.onClickHandler.bind(this)}
             >
-                {this.state.fullscreen ? <div className={style['background']}/> : null}
+                {this.state.fullscreen ? <div className={video('Background')}/> : null}
                 {!this.state.detector || !this.video ? null :
                     <CanvasMoveDetector contrast={this.props.contrast}
                                         brightness={this.props.brightness}
@@ -88,11 +91,11 @@ export default class Video extends React.Component<IVideoProps, IVideoState> {
                     />
                 }
                 <VideoPlayer url={this.props.url}
-                             element={video => this.video = video}
+                             element={videoElement => this.video = videoElement}
                              contrast={this.props.contrast}
                              brightness={this.props.brightness}
                              muted={!this.state.fullscreen}
-                             className={this.state.detector ? style['hide'] : style['video']}
+                             className={video({hide: this.state.detector})}
                 />
                 {this.state.fullscreen ? this.renderControls() : null}
             </div>
@@ -179,11 +182,11 @@ export default class Video extends React.Component<IVideoProps, IVideoState> {
     }
 
     // Получение данных видео в оригинальном размере, без учета трансформаций
-    private getRectWithoutTransform(video: HTMLVideoElement) {
-        const transform = video.style.transform;
-        video.style.transform = '';
-        const rect = video.getBoundingClientRect() as DOMRect;
-        video.style.transform = transform;
+    private getRectWithoutTransform(videoElement: HTMLVideoElement) {
+        const transform = videoElement.style.transform;
+        videoElement.style.transform = '';
+        const rect = videoElement.getBoundingClientRect() as DOMRect;
+        videoElement.style.transform = transform;
         return rect;
     }
 

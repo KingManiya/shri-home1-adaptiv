@@ -2,9 +2,12 @@
  * Created by user on 09.10.18.
  */
 
+import {cn} from '@bem-react/classname';
 import React from 'react';
 
-const style = require('./CardInfo.scss');
+import './CardInfo.scss';
+
+const cardInfo = cn('CardInfo');
 
 interface ICardInfo {
     twoLine: boolean;
@@ -16,11 +19,11 @@ export default class CardInfo extends React.Component<ICardInfo> {
 
     public render() {
         return (
-            <div className={this.props.twoLine ? style['two'] : style['normal']}>
-                <div className={style['text']}>
+            <div className={cardInfo({two: this.props.twoLine})}>
+                <div className={cardInfo('Text')}>
                     {this.props.source}
                 </div>
-                <div className={style['text']}>
+                <div className={cardInfo('Text')}>
                     {this.props.time}
                 </div>
             </div>

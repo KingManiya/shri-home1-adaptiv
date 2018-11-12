@@ -1,30 +1,29 @@
 @import "../../css/constants";
 
-.normal {
+.CardInfo {
   margin-top: 15px;
   display: flex;
   justify-content: space-between;
 }
 
-.two {
-  composes: normal;
+.CardInfo_two {
 }
 
-.text {
+.CardInfo-Text {
   font-size: 18px;
   color: #333;
 }
 
 /* Добавляем перенос на вторую строку для времени в больших разрешениях */
 @media ($media-desktop2-at) {
-  .two {
+  .CardInfo_two {
     flex-direction: column;
     height: 60px;
   }
 }
 
 @media ($media-mobile-to) {
-  .header_info_text {
+  .CardInfo-Text {
     font-size: 12px;
   }
 }
