@@ -1,39 +1,37 @@
 @import "../../css/constants";
 
-.normal {
+.AudioPlayer {
 
 }
 
-.image {
+.AudioPlayer-Image {
   width: 52px;
   height: 52px;
 }
 
-.line {
+.AudioPlayer-Line {
   display: flex;
   align-items: center;
 }
 
-.line_top {
-  composes: line;
+.AudioPlayer-Line_top {
   flex-grow: 1;
   height: 52px;
 }
 
-.line_bottom {
-  composes: line;
+.AudioPlayer-Line_bottom {
   margin-top: $desktop-margin;
   flex-grow: 1;
 }
 
-.title {
+.AudioPlayer-Title {
   font-size: 20px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
-.top {
+.AudioPlayer-Top {
   margin-left: 15px;
   flex-grow: 1;
   display: flex;
@@ -43,12 +41,11 @@
   width: 0; /* Для троеточия на title */
 }
 
-.song_player_line {
-  composes: line;
+.AudioPlayer-Line_songPlayer {
   height: 20px;
 }
 
-.song_player {
+.AudioPlayer-SongPlayer {
   line-height: 20px;
   height: 1px;
   background-color: #979797;
@@ -56,7 +53,7 @@
   position: relative;
 }
 
-.song_player_value {
+.AudioPlayer-SongPlayerValue {
   position: absolute;
   top: -10px;
   left: 10%;
@@ -67,26 +64,25 @@
   cursor: pointer;
 }
 
-.back {
+.AudioPlayer-Control {
   width: 52px;
   height: 52px;
   border-radius: 50%;
   cursor: pointer;
 }
 
-.forward {
-  composes: back;
+.AudioPlayer-Control_forward {
   transform: rotate(180deg);
   margin-left: 27px;
 }
 
-.info {
+.AudioPlayer-Info {
   font-size: 14px;
   margin-left: 15px;
   color: rgba(161, 161, 161, 0.84);
 }
 
-.volume {
+.AudioPlayer-Volume {
   flex-grow: 1;
   height: 4px;
   background-color: rgba(216, 216, 216, 0.3);
@@ -94,7 +90,7 @@
   position: relative;
 }
 
-.volume_value {
+.AudioPlayer-VolumeValue {
   position: absolute;
   top: -6px;
   left: calc(80% - 8px);
@@ -106,15 +102,15 @@
 }
 
 @media ($media-mobile-to) {
-  .line_bottom {
+  .AudioPlayer-Line_bottom {
     margin-top: $mobile-margin;
   }
 
-  .title {
+  .AudioPlayer-Title {
     font-size: 18px;
   }
 
-  .forward {
+  .AudioPlayer-Forward {
     margin-left: 20px;
   }
 }
