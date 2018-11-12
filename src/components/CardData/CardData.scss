@@ -1,0 +1,62 @@
+@import "../../css/constants";
+
+/* Данные кнопок */
+.CardData-Buttons {
+  margin-top: auto;
+  display: flex;
+}
+
+/* Данные камеры */
+.CardData-Stats {
+  border-radius: $border-radius;
+  width: 100%;
+  overflow: hidden;
+}
+
+.CardData-Cam {
+  width: 100%;
+
+  transform: scale(2);
+  touch-action: none;
+  user-select: none;
+}
+
+/* Данные температуры */
+.CardData-Thermal {
+  margin-top: auto;
+  display: flex;
+}
+
+.CardData-TempLine {
+  display: flex;
+  margin-right: 52px;
+}
+
+.CardData-TempText {
+  font-size: 18px;
+}
+
+.CardData-TempText_value {
+  font-weight: bold;
+  margin-left: 2px;
+}
+
+@media ($media-mobile-to) {
+  /* Данные кнопок: кнопки по краям карточки */
+  .CardData-Buttons {
+    justify-content: space-between;
+  }
+
+  /* Данные температуры: по краям карточки */
+  .CardData-Thermal {
+    justify-content: space-between;
+  }
+
+  .CardData-TempLine {
+    margin-right: initial;
+  }
+
+  .CardData-TempText {
+    font-size: 14px;
+  }
+}
