@@ -15,7 +15,7 @@ import {
 import ICardData from '../../inerfaces/ICardData';
 import AudioPlayer from '../AudioPlayer/AudioPlayer';
 import Button from '../Button/Button';
-// import Video from '../Video/Video';
+import Video from '../Video/Video';
 
 import './CardData.scss';
 
@@ -125,13 +125,12 @@ export default class CardData extends React.Component<ICardDataProps> {
                                 volume={data.volume}
 
             />;
-        }
-        /* else if (data.video) {
+        } else if (data.video) {
                     return <Video url={data.video}
                                   brightness={data.brightness}
                                   contrast={data.contrast}
                     />;
-                }*/
+        }
         return null;
     }
 

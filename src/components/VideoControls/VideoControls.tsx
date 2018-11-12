@@ -2,11 +2,14 @@
  * Created by user on 14.10.18.
  */
 
+import {cn} from '@bem-react/classname';
 import React from 'react';
 import AudioAnalyser from '../../helpers/AudioAnalyser';
 import BarDiagram from '../BarDiagram/BarDiagram';
 
-const style = require('./VideoControls.scss');
+import './VideoControls.scss';
+
+const videoControls = cn('VideoControls');
 
 interface IVideoControls {
     brightness: number;
@@ -81,22 +84,22 @@ export default class VideoControls extends React.Component<IVideoControls> {
             this.props.stepX / this.props.stepY * (this.props.frameForAnalise - 1));
 
         return (
-            <div className={style['normal']} onClick={e => e.stopPropagation()}>
+            <div className={videoControls()} onClick={e => e.stopPropagation()}>
 
                 {!this.state.show ? null :
                     <>
                         {!this.props.detector ? null :
                             <>
-                                <div className={style['line']}>
-                                    <div className={style['text']}>
+                                <div className={videoControls('Line')}>
+                                    <div className={videoControls('Text')}>
                                         Сложность: {(complexity / 1000).toFixed(1)}k
                                     </div>
-                                    <div className={style['text']}>
+                                    <div className={videoControls('Text')}>
                                         Разрешение: {this.props.width}x{this.props.height}
                                     </div>
                                 </div>
-                                <div className={style['line']}>
-                                    <div className={style['text']}>
+                                <div className={videoControls('Line')}>
+                                    <div className={videoControls('Text')}>
                                         Отображать разницу:
                                     </div>
                                     <input type="checkbox"
@@ -104,8 +107,8 @@ export default class VideoControls extends React.Component<IVideoControls> {
                                            onChange={() => this.props.onUpdateShowDelta(!this.props.showDelta)}
                                     />
                                 </div>
-                                <div className={style['line']}>
-                                    <div className={style['text']}>
+                                <div className={videoControls('Line')}>
+                                    <div className={videoControls('Text')}>
                                         Пропуск кадров:{this.props.skip}
                                     </div>
                                     <input type="range" min={1} max={60}
@@ -113,8 +116,8 @@ export default class VideoControls extends React.Component<IVideoControls> {
                                            onChange={event => this.props.onUpdateSkip(+event.target.value)}
                                     />
                                 </div>
-                                <div className={style['line']}>
-                                    <div className={style['text']}>
+                                <div className={videoControls('Line')}>
+                                    <div className={videoControls('Text')}>
                                         Кадров для анализа:{this.props.frameForAnalise}
                                     </div>
                                     <input type="range" min={2} max={60}
@@ -122,8 +125,8 @@ export default class VideoControls extends React.Component<IVideoControls> {
                                            onChange={event => this.props.onUpdateFrameForAnalise(+event.target.value)}
                                     />
                                 </div>
-                                <div className={style['line']}>
-                                    <div className={style['text']}>
+                                <div className={videoControls('Line')}>
+                                    <div className={videoControls('Text')}>
                                         Точность по X:{this.props.stepX}
                                     </div>
                                     <input type="range" min={1} max={60}
@@ -131,8 +134,8 @@ export default class VideoControls extends React.Component<IVideoControls> {
                                            onChange={event => this.props.onUpdateStepX(+event.target.value)}
                                     />
                                 </div>
-                                <div className={style['line']}>
-                                    <div className={style['text']}>
+                                <div className={videoControls('Line')}>
+                                    <div className={videoControls('Text')}>
                                         Точность по Y:{this.props.stepY}
                                     </div>
                                     <input type="range" min={1} max={60}
@@ -140,8 +143,8 @@ export default class VideoControls extends React.Component<IVideoControls> {
                                            onChange={event => this.props.onUpdateStepY(+event.target.value)}
                                     />
                                 </div>
-                                <div className={style['line']}>
-                                    <div className={style['text']}>
+                                <div className={videoControls('Line')}>
+                                    <div className={videoControls('Text')}>
                                         Погрешность:{this.props.threshold}
                                     </div>
                                     <input type="range" min={0} max={255}
@@ -152,11 +155,11 @@ export default class VideoControls extends React.Component<IVideoControls> {
                             </>
                         }
                         <canvas width={10} height={10} ref={canvas => this.canvas = canvas} style={{display: 'none'}}/>
-                        <div className={style['text']}>
+                        <div className={videoControls('Text')}>
                             Освещённость: {this.state.light}%
                         </div>
-                        <div className={style['line']}>
-                            <div className={style['text']}>
+                        <div className={videoControls('Line')}>
+                            <div className={videoControls('Text')}>
                                 Контрастность
                             </div>
                             <input type="range" min={0.05} max={2} step={0.05}
@@ -164,8 +167,8 @@ export default class VideoControls extends React.Component<IVideoControls> {
                                    value={this.props.contrast}
                             />
                         </div>
-                        <div className={style['line']}>
-                            <div className={style['text']}>
+                        <div className={videoControls('Line')}>
+                            <div className={videoControls('Text')}>
                                 Яркость
                             </div>
                             <input type="range" min={0.05} max={2} step={0.05}
@@ -174,20 +177,20 @@ export default class VideoControls extends React.Component<IVideoControls> {
                             />
                         </div>
                         <BarDiagram analyser={this.props.analyser}/>
-                        <div className={style['line']}>
-                            <div className={style['button']} onClick={this.props.onDetector}>
+                        <div className={videoControls('Line')}>
+                            <div className={videoControls('Button')} onClick={this.props.onDetector}>
                                 {this.props.detector ? 'Выключить детектор' : 'Включить детектор'}
                             </div>
                         </div>
                     </>
                 }
-                <div className={style['line']}>
-                    <div className={style['button']}
+                <div className={videoControls('Line')}>
+                    <div className={videoControls('Button')}
                          onClick={() => this.setState({show: !this.state.show})}
                     >
                         {this.state.show ? 'Скрыть настройки' : 'Показать настройки'}
                     </div>
-                    <div className={style['button']} onClick={this.props.onClose}>
+                    <div className={videoControls('Button')} onClick={this.props.onClose}>
                         Все камеры
                     </div>
                 </div>

@@ -2,7 +2,7 @@ import {cn} from '@bem-react/classname';
 import React from 'react';
 import {hot} from 'react-hot-loader';
 import {HashRouter as Router, Route} from 'react-router-dom';
-// import PageCamsContainer from '../../containers/PageCamsContainer/PageCamsContainer';
+import PageCamsContainer from '../../containers/PageCamsContainer/PageCamsContainer';
 import PageEventsContainer from '../../containers/PageEventsContainer/PageEventsContainer';
 import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
@@ -21,7 +21,7 @@ class App extends React.Component {
                     <Route path="/" component={PageEventsContainer} exact/>
                     <Route path="/info" component={PageDev}/>
                     <Route path="/devices" component={PageDev}/>
-                    {/*<Route path="/cams" component={PageCamsContainer}/>*/}
+                    <Route path="/cams" component={PageCamsContainer}/>
                     <Footer/>
                 </div>
             </Router>

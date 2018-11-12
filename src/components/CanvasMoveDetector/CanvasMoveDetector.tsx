@@ -2,10 +2,13 @@
  * Created by user on 17.10.18.
  */
 
+import {cn} from '@bem-react/classname';
 import React from 'react';
 import MoveDetector from '../../helpers/MoveDetector';
 
-const style = require('./CanvasMoveDetector.scss');
+import './CanvasMoveDetector.scss';
+
+const canvasMoveDetector = cn('CanvasMoveDetector');
 
 interface ICanvasMoveDetector {
     brightness: number;
@@ -78,7 +81,7 @@ export default class CanvasMoveDetector extends React.Component<ICanvasMoveDetec
 
         return (
             <canvas ref={canvas => this.canvas = canvas}
-                    className={style['normal']}
+                    className={canvasMoveDetector()}
                     width={this.props.width}
                     height={this.props.height}
 

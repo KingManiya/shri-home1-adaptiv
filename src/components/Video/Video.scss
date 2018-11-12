@@ -1,17 +1,17 @@
-.video {
+.Video {
   transition: transform 0.5s;
 }
 
-.hide {
+.Video_hide {
   display: none;
 }
 
-.relative {
+.Video-Relative {
   position: relative;
   z-index: 3;
 }
 
-.background {
+.Video-Background {
   position: fixed;
   top: 0;
   left: 0;

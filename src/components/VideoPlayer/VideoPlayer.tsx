@@ -2,11 +2,13 @@
  * Created by user on 09.10.18.
  */
 
-import classNames from 'classnames';
+import {classnames, cn} from '@bem-react/classname';
 import Hls from 'hls.js';
 import React from 'react';
 
-const style = require('./VideoPlayer.scss');
+import './VideoPlayer.scss';
+
+const videoPlayer = cn('VideoPlayer');
 
 interface IVideoPlayer {
     url: string;
@@ -30,7 +32,7 @@ export default class VideoPlayer extends React.Component<IVideoPlayer> {
         if (this.props.brightness) filters.push(`brightness(${this.props.brightness})`);
         if (this.props.contrast) filters.push(`contrast(${this.props.contrast})`);
 
-        const className = classNames(style['normal'], this.props.className);
+        const className = classnames(videoPlayer(), this.props.className);
         return (
             <video className={className}
                 // controls
