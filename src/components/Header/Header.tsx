@@ -2,10 +2,16 @@
  * Created by user on 02.10.18.
  */
 
+import {cn} from '@bem-react/classname';
 import React from 'react';
 import {NavLink} from 'react-router-dom';
 
-const style = require('./Header.scss');
+import './Header.scss';
+
+const header = cn('Header');
+const headerLink = cn(header(), 'Link');
+// Для react-router это вызывает дублирование класса Header-Link, но по другому не выходит для NavLink.
+const headerLinkActive = headerLink({active: true});
 
 export default class Header extends React.Component {
     public state = {
@@ -14,36 +20,31 @@ export default class Header extends React.Component {
 
     public render() {
         return (
-            <div className={this.state.menuActive ? style['menu_active'] : style['normal']}>
-                <a className={style['logo']} href="#"/>
-                <div className={style['links']}>
-                    <NavLink to="/" className={style['link']} exact
-                             activeClassName={style['link_active']}
+            <div className={header({menuActive: this.state.menuActive})}>
+                <a className={header('Logo')} href="#"/>
+                <div className={header('Links')}>
+                    <NavLink to="/" className={headerLink()} exact
+                             activeClassName={headerLinkActive}
                     >
                         События
                     </NavLink>
-                    <NavLink to="/info" className={style['link']}
-                             activeClassName={style['link_active']}
+                    <NavLink to="/info" className={headerLink()} exact
+                             activeClassName={headerLinkActive}
                     >
                         Сводка
                     </NavLink>
-                    <NavLink to="/devices" className={style['link']}
-                             activeClassName={style['link_active']}
+                    <NavLink to="/devices" className={headerLink()} exact
+                             activeClassName={headerLinkActive}
                     >
                         Устройства
                     </NavLink>
-                    {/*<NavLink to="/scenarios" className={style['link']}*/}
-                    {/*activeClassName={style['link_active']}*/}
-                    {/*>*/}
-                    {/*Сценарии*/}
-                    {/*</NavLink>*/}
-                    <NavLink to="/cams" className={style['link']}
-                             activeClassName={style['link_active']}
+                    <NavLink to="/cams" className={headerLink()} exact
+                             activeClassName={headerLinkActive}
                     >
                         Камеры
                     </NavLink>
                 </div>
-                <div className={style['menu']}
+                <div className={header('Menu')}
                      onClick={() => this.setState({menuActive: !this.state.menuActive})}
                 />
             </div>

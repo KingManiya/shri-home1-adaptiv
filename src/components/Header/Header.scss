@@ -1,6 +1,6 @@
 @import "../../css/constants";
 
-.normal {
+.Header {
   height: 89px;
   border-bottom: 1px solid #f0f0f0;
 
@@ -11,11 +11,7 @@
   flex-shrink: 0;
 }
 
-.menu_active {
-  composes: normal;
-}
-
-.logo {
+.Header-Logo {
   width: 108px;
   height: 27px;
   background-size: 108px;
@@ -23,7 +19,7 @@
   text-decoration: none;
 }
 
-.link {
+.Header-Link {
   line-height: 20px;
   font-size: 16px;
   color: #333;
@@ -33,11 +29,11 @@
   text-decoration: none;
 }
 
-.link_active {
+.Header-Link_active {
   opacity: 1;
 }
 
-.menu {
+.Header-Menu {
   background: url("../Header/img/menu.svg");
   width: 16px;
   height: 14px;
@@ -48,7 +44,7 @@
 
 @media ($media-mobile-to) {
   /* Прибиваем шапку */
-  .normal {
+  .Header {
     position: fixed;
     top: 0;
     left: 0;
@@ -59,7 +55,7 @@
   }
 
   /* Скрываем навигацию, показываем меню */
-  .links {
+  .Header-Links {
     display: none;
     grid-template-columns: 1fr 1fr;
     height: 100%;
@@ -67,22 +63,22 @@
     align-content: space-evenly;
   }
 
-  .menu {
+  .Header-Menu {
     display: initial;
   }
 
   /* При активном меню прям лого, показываем навигацию */
-  .menu_active .logo {
+  .Header_menuActive .Header-Logo {
     display: none;
   }
 
-  .menu_active .links {
+  .Header_menuActive .Header-Links {
     display: grid;
   }
 }
 
 @media ($media-tablet-to) {
-  .normal {
+  .Header {
     padding: 0 20px;
   }
 }

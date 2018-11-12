@@ -55,6 +55,9 @@
     "webpack-dev-server": "^3.1.9"
   },
   "dependencies": {
+    "@bem-react/classname": "^1.1.1",
+    "@bem-react/core": "^1.2.0",
+    "@bem-react/di": "^1.0.3",
     "@types/body-parser": "^1.17.0",
     "@types/classnames": "^2.2.6",
     "@types/cors": "^2.8.4",
