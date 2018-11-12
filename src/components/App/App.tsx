@@ -4,7 +4,7 @@ import {hot} from 'react-hot-loader';
 import {HashRouter as Router, Route} from 'react-router-dom';
 // import PageCamsContainer from '../../containers/PageCamsContainer/PageCamsContainer';
 // import PageEventsContainer from '../../containers/PageEventsContainer/PageEventsContainer';
-// import Footer from '../Footer/Footer';
+import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
 // import PageDev from '../PageDev/PageDev';
 
@@ -23,7 +23,7 @@ class App extends React.Component {
                     {/*<Route path="/devices" component={PageDev}/>*/}
                     {/*/!*<Route path="/scenarios" component={PageDev}/>*!/*/}
                     {/*<Route path="/cams" component={PageCamsContainer}/>*/}
-                    {/*<Footer/>*/}
+                    <Footer/>
                 </div>
             </Router>
         );
