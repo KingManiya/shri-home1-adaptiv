@@ -6,7 +6,7 @@ import {HashRouter as Router, Route} from 'react-router-dom';
 // import PageEventsContainer from '../../containers/PageEventsContainer/PageEventsContainer';
 import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
-// import PageDev from '../PageDev/PageDev';
+import PageDev from '../PageDev/PageDev';
 
 import './App.scss';
 
@@ -19,9 +19,8 @@ class App extends React.Component {
                 <div className={app()}>
                     <Header/>
                     {/*<Route path="/" component={PageEventsContainer} exact/>*/}
-                    {/*<Route path="/info" component={PageDev}/>*/}
-                    {/*<Route path="/devices" component={PageDev}/>*/}
-                    {/*/!*<Route path="/scenarios" component={PageDev}/>*!/*/}
+                    <Route path="/info" component={PageDev}/>
+                    <Route path="/devices" component={PageDev}/>
                     {/*<Route path="/cams" component={PageCamsContainer}/>*/}
                     <Footer/>
                 </div>
